@@ -133,23 +133,27 @@ footer {
 <script>
 fetch("products.json")
   .then(res => res.json())
-  .then(data => {
+  .then(products => {
     const container = document.getElementById("products");
 
-    data.items.forEach(p => {
+    products.forEach(p => {   // <-- use products directly, no .items
       container.innerHTML += `
         <div class="product">
           <img src="${p.image}" alt="${p.name}">
           <h2>${p.name}</h2>
-          <p title="${p.description}">${p.description}</p>
+          <p title="${p.description}">
+            ${p.description.length > 120 ? p.description.slice(0,120) + "..." : p.description}
+          </p>
           <a href="${p.link}" target="_blank" rel="nofollow sponsored noopener">
             View on Amazon
           </a>
         </div>
       `;
     });
-  });
+  })
+  .catch(err => console.error("Failed to load products:", err));
 </script>
+
 
 <footer>
     <p>As an Amazon Associate, I earn from qualifying purchases.</p>
