@@ -1,34 +1,14 @@
 {
   "products": [
     {
-      "id": 1,
-      "title": "Premium Wireless Headphones",
-      "description": "Crystal clear sound with active noise cancellation. 30-hour battery life.",
-      "price": "$89.99",
-      "image": "🎧",
+      "title": "Utopia Bedding Waterproof Mattress Protector Queen Size",
+      "description": "Mattress Protector: Queen size mattress protector measures 60x80 inches - fits up to 17 inches deep; fitted cover style design with elastic all around.\nSoft And Breathable Bamboo Viscose Material: This 200 GSM Bamboo Viscose Mattress Protector offers the perfect combination of comfort, protection, and breathability. The soft, smooth and cool surface further ensures that you enjoy a restful sleep all night long.\nFitted Style All Around Elastic: Mattress protector with a fitted style all round elastic band creates a secure fit on the mattress.\nWaterproof: This waterproof mattress protector shields the mattress from any spills, sweat, and other liquids. It is highly absorbent and helps keep the mattress clean and dry, while also protecting it from wear and tear.\nCare Instruction: Machine wash cold on gentle cycle and tumble dry low. Do not iron, bleach or use fabric softener. (Packaging May Vary)",
+      "price": "30.39",
+      "image": "https://m.media-amazon.com/images/I/91E9ExnEq5L._AC_SL1500_.jpg",
       "badge": "Best Seller",
-      "link": "https://amazon.com",
-      "visible": true
-    },
-    {
-      "id": 2,
-      "title": "Laptop Stand Pro",
-      "description": "Ergonomic aluminum stand for better posture and cooling.",
-      "price": "$49.99",
-      "image": "💻",
-      "badge": "New",
-      "link": "https://amazon.com",
-      "visible": true
-    },
-    {
-      "id": 3,
-      "title": "Smart Fitness Watch",
-      "description": "Track your health, workouts, and stay connected on the go.",
-      "price": "$129.99",
-      "image": "⌚",
-      "badge": "Trending",
-      "link": "https://amazon.com",
-      "visible": true
+      "link": "https://amzn.to/49omqFa",
+      "visible": true,
+      "id": 1768628021224
     }
   ]
 }
