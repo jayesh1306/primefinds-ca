@@ -4,7 +4,20 @@
 // - GITHUB_TOKEN  (a personal access token with repo access)
 // - GITHUB_REPO   (owner/repo, e.g. "jayesh1306/primefinds-ca")
 
-const fetch = global.fetch || require('node-fetch');
+// Prefer the built-in fetch (Node 18+ / Netlify runtime). Only try to require node-fetch
+// if fetch isn't available. Wrap require in try/catch so build won't fail when node-fetch
+// isn't installed.
+let fetchImpl = (typeof globalThis !== 'undefined' && globalThis.fetch) ? globalThis.fetch : undefined;
+if (!fetchImpl) {
+  try {
+    // require may fail at build-time if dependency isn't installed; catch to avoid breaking build
+    // (Netlify will bundle node_modules if you add them to package.json)
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    fetchImpl = require('node-fetch');
+  } catch (err) {
+    fetchImpl = null;
+  }
+}
 
 exports.handler = async function(event) {
   if (event.httpMethod !== 'POST') {
@@ -40,9 +53,13 @@ exports.handler = async function(event) {
 
   const getUrl = `https://api.github.com/repos/${owner}/${repoName}/contents/${path}`;
 
+  if (!fetchImpl) {
+    return { statusCode: 500, body: 'Server runtime missing fetch implementation; install node-fetch or use a Node 18+ runtime.' };
+  }
+
   try {
     // Try to get the existing file to obtain the sha (required when updating)
-    const getRes = await fetch(getUrl, { headers: apiHeaders });
+    const getRes = await fetchImpl(getUrl, { headers: apiHeaders });
     let sha = undefined;
     if (getRes.ok) {
       const getData = await getRes.json();
@@ -56,7 +73,7 @@ exports.handler = async function(event) {
     };
     if (sha) putBody.sha = sha;
 
-    const putRes = await fetch(getUrl, {
+    const putRes = await fetchImpl(getUrl, {
       method: 'PUT',
       headers: { ...apiHeaders, 'Content-Type': 'application/json' },
       body: JSON.stringify(putBody)
