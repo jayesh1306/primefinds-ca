@@ -170,6 +170,34 @@
             overflow: hidden;
         }
 
+        /* Carousel controls */
+        .carousel-prev, .carousel-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.4);
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .carousel-prev { left: 12px; }
+        .carousel-next { right: 12px; }
+
+        .carousel-emoji {
+            font-size: 5rem;
+            display: inline-block;
+            line-height: 1;
+        }
+
         .product-image img {
             width: 100%;
             height: 100%;
@@ -745,8 +773,8 @@
                     <input type="text" id="productPrice" placeholder="$99.99" required>
                 </div>
                 <div class="form-group">
-                    <label>Image URL or Emoji</label>
-                    <input type="text" id="productImage" placeholder="🎧 or https://...">
+                    <label>Image URLs (comma separated) or single Emoji/URL</label>
+                    <textarea id="productImage" placeholder="🎧 or https://example.com/img1.jpg, https://example.com/img2.jpg"></textarea>
                 </div>
                 <div class="form-group">
                     <label>Badge (optional)</label>
@@ -774,7 +802,7 @@
                 title: 'Premium Wireless Headphones',
                 description: 'Crystal clear sound with active noise cancellation. 30-hour battery life.',
                 price: '$89.99',
-                image: '🎧',
+                images: ['https://m.media-amazon.com/images/I/71girJD2oyL._AC_SL1500_.jpg', 'https://m.media-amazon.com/images/I/71b6O0R0esL._AC_SL1500_.jpg'],
                 badge: 'Best Seller',
                 link: 'https://amazon.com'
             },
@@ -783,7 +811,7 @@
                 title: 'Laptop Stand Pro',
                 description: 'Ergonomic aluminum stand for better posture and cooling.',
                 price: '$49.99',
-                image: '💻',
+                images: ['💻'],
                 badge: 'New',
                 link: 'https://amazon.com'
             },
@@ -792,7 +820,7 @@
                 title: 'Smart Fitness Watch',
                 description: 'Track your health, workouts, and stay connected on the go.',
                 price: '$129.99',
-                image: '⌚',
+                images: ['⌚'],
                 badge: 'Trending',
                 link: 'https://amazon.com'
             }
@@ -923,27 +951,66 @@
             products.forEach(product => {
                 const card = document.createElement('div');
                 card.className = 'product-card';
-                
-                const isImageUrl = product.image && product.image.startsWith('http');
-                const imageContent = isImageUrl 
-                    ? `<img src="${product.image}" alt="${product.title}">`
-                    : (product.image || '📦');
+
+                const images = Array.isArray(product.images) ? product.images : (product.image ? [product.image] : []);
+
+                let imageHtml = '';
+
+                if (images.length > 1) {
+                    const first = images[0];
+                    const firstIsUrl = first && first.toString().startsWith('http');
+                    const firstContent = firstIsUrl ? `<img src="${first}" alt="${product.title}" class="carousel-img">` : `<span class="carousel-emoji">${first}</span>`;
+
+                    imageHtml = `
+                        <div class="product-image">
+                            <div class="carousel-display">${firstContent}</div>
+                            <button class="carousel-prev" aria-label="Previous">‹</button>
+                            <button class="carousel-next" aria-label="Next">›</button>
+                            ${product.badge ? `<span class="badge">${product.badge}</span>` : ''}
+                        </div>
+                    `;
+                } else {
+                    const img = images[0];
+                    if (img && img.toString().startsWith && img.toString().startsWith('http')) {
+                        imageHtml = `<div class="product-image"><img src="${img}" alt="${product.title}">${product.badge ? `<span class="badge">${product.badge}</span>` : ''}</div>`;
+                    } else {
+                        imageHtml = `<div class="product-image">${img || '📦'}${product.badge ? `<span class="badge">${product.badge}</span>` : ''}</div>`;
+                    }
+                }
 
                 card.innerHTML = `
-                    <div class="product-image">
-                        ${imageContent}
-                        ${product.badge ? `<span class="badge">${product.badge}</span>` : ''}
-                    </div>
+                    ${imageHtml}
                     <div class="product-info">
                         <h3 class="product-title">${product.title}</h3>
                         <p class="product-desc">${product.description}</p>
                         <div class="product-footer">
-                            <span class="price">${product.price}</span>
+                            <span class="price">${product.price || ''}</span>
                             <button class="buy-btn" onclick="window.open('${product.link}', '_blank')">View on Amazon</button>
                         </div>
                     </div>
                 `;
+
                 grid.appendChild(card);
+
+                // Initialize carousel behavior when multiple images are present
+                if (images.length > 1) {
+                    let idx = 0;
+                    const display = card.querySelector('.carousel-display');
+                    const prev = card.querySelector('.carousel-prev');
+                    const next = card.querySelector('.carousel-next');
+
+                    const update = () => {
+                        const v = images[idx];
+                        if (v && v.toString().startsWith && v.toString().startsWith('http')) {
+                            display.innerHTML = `<img class="carousel-img" src="${v}" alt="${product.title}">`;
+                        } else {
+                            display.innerHTML = `<span class="carousel-emoji">${v}</span>`;
+                        }
+                    };
+
+                    prev.addEventListener('click', function(e) { e.stopPropagation(); idx = (idx - 1 + images.length) % images.length; update(); });
+                    next.addEventListener('click', function(e) { e.stopPropagation(); idx = (idx + 1) % images.length; update(); });
+                }
             });
         }
 
@@ -965,11 +1032,11 @@
             products.forEach(product => {
                 const card = document.createElement('div');
                 card.className = 'admin-product-card';
-                
-                const isImageUrl = product.image && product.image.startsWith('http');
-                const imageContent = isImageUrl 
-                    ? `<img src="${product.image}" alt="${product.title}">`
-                    : (product.image || '📦');
+
+                const images = Array.isArray(product.images) ? product.images : (product.image ? [product.image] : []);
+                const thumb = images[0];
+                const thumbIsUrl = thumb && thumb.toString().startsWith('http');
+                const imageContent = thumbIsUrl ? `<img src="${thumb}" alt="${product.title}">` : (thumb || '📦');
 
                 card.innerHTML = `
                     <div class="admin-product-image">
@@ -979,7 +1046,7 @@
                         <h3>${product.title}</h3>
                         <p>${product.description}</p>
                         <div class="admin-product-meta">
-                            <span>💰 ${product.price}</span>
+                            <span>💰 ${product.price || ''}</span>
                             ${product.badge ? `<span>🏷️ ${product.badge}</span>` : ''}
                         </div>
                     </div>
@@ -1008,7 +1075,9 @@
             document.getElementById('productTitle').value = product.title;
             document.getElementById('productDesc').value = product.description;
             document.getElementById('productPrice').value = product.price;
-            document.getElementById('productImage').value = product.image || '';
+            // Populate the images textarea (comma separated)
+            const imgs = Array.isArray(product.images) ? product.images : (product.image ? [product.image] : []);
+            document.getElementById('productImage').value = imgs.join(', ');
             document.getElementById('productBadge').value = product.badge || '';
             document.getElementById('productLink').value = product.link;
             
@@ -1033,11 +1102,15 @@
         document.getElementById('productForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
+            const rawImages = document.getElementById('productImage').value || '';
+            // Parse comma-separated images, trim and filter empty entries
+            const images = rawImages.split(',').map(s => s.trim()).filter(Boolean);
+
             const productData = {
                 title: document.getElementById('productTitle').value,
                 description: document.getElementById('productDesc').value,
                 price: document.getElementById('productPrice').value,
-                image: document.getElementById('productImage').value || '📦',
+                images: images.length ? images : ['📦'],
                 badge: document.getElementById('productBadge').value,
                 link: document.getElementById('productLink').value
             };
