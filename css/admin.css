@@ -1,0 +1,14 @@
+/* Styles for secret admin page */
+body{font-family:Segoe UI, Tahoma, Geneva, Verdana, sans-serif;background:#f5f5f5;color:#333;padding:20px}
+.admin-form{background:#fff;padding:20px;border-radius:8px;max-width:720px;margin:0 auto 20px;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.form-group{margin-bottom:12px}
+label{display:block;margin-bottom:6px;font-weight:600}
+input,textarea{width:100%;padding:10px;border:1px solid #ddd;border-radius:6px}
+button{padding:10px 16px;border:none;border-radius:6px;cursor:pointer}
+.btn-primary{background:#ff9900;color:#fff}
+.btn-secondary{background:#ddd}
+.admin-products{max-width:900px;margin:20px auto}
+.admin-product-item{background:#fff;padding:12px;border-radius:6px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);align-items:center;justify-content:center}
+.modal.active{display:flex}
+.modal-content{background:#fff;padding:20px;border-radius:8px;max-width:600px;width:90%}
