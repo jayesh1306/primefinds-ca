@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrimeFindsCanada - Premium Products</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .carousel {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            background: #f0f0f0;
+        }
+
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease;
+            height: 100%;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.9);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+            z-index: 10;
+        }
+
+        .carousel-btn:hover {
+            background: white;
+        }
+
+        .carousel-btn.prev {
+            left: 10px;
+        }
+
+        .carousel-btn.next {
+            right: 10px;
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .dot.active {
+            background: white;
+        }
+
+        .product-info {
+            padding: 25px;
+        }
+
+        .product-title {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .product-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .amazon-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff9a56 0%, #ff6a00 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 106, 0, 0.3);
+        }
+
+        .amazon-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 106, 0, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🍁 PrimeFindsCanada</h1>
+            <p>Discover amazing products handpicked just for you</p>
+        </header>
+
+        <div class="products-grid" id="productsGrid"></div>
+    </div>
+
+    <script>
+        const products = [
+            {
+                title: "Wireless Bluetooth Headphones",
+                description: "Experience crystal-clear audio with our premium wireless headphones. Features active noise cancellation, 30-hour battery life, and ultra-comfortable ear cushions perfect for all-day wear.",
+                images: [
+                    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80",
+                    "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800&q=80",
+                    "https://images.unsplash.com/photo-1545127398-14699f92334b?w=800&q=80"
+                ],
+                amazonLink: "https://amazon.com"
+            },
+            {
+                title: "Smart Fitness Watch",
+                description: "Track your health and fitness goals with this advanced smartwatch. Includes heart rate monitoring, sleep tracking, GPS, and over 100 sport modes to keep you motivated.",
+                images: [
+                    "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80",
+                    "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=800&q=80",
+                    "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=80"
+                ],
+                amazonLink: "https://amazon.com"
+            },
+            {
+                title: "Professional Camera Kit",
+                description: "Capture stunning photos with this professional-grade camera. Includes 24MP sensor, 4K video recording, and a versatile lens kit for every shooting scenario.",
+                images: [
+                    "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=800&q=80",
+                    "https://images.unsplash.com/photo-1606244864456-8bee63fce472?w=800&q=80",
+                    "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&q=80"
+                ],
+                amazonLink: "https://amazon.com"
+            },
+            {
+                title: "Luxury Leather Backpack",
+                description: "Handcrafted from premium leather, this backpack combines style and functionality. Features a padded laptop compartment, multiple pockets, and water-resistant coating.",
+                images: [
+                    "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=80",
+                    "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=800&q=80",
+                    "https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=800&q=80"
+                ],
+                amazonLink: "https://amazon.com"
+            },
+            {
+                title: "Portable Coffee Maker",
+                description: "Enjoy barista-quality coffee anywhere with this compact coffee maker. Battery-powered, easy to clean, and compatible with ground coffee and pods.",
+                images: [
+                    "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=800&q=80",
+                    "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800&q=80",
+                    "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80"
+                ],
+                amazonLink: "https://amazon.com"
+            },
+            {
+                title: "Gaming Mechanical Keyboard",
+                description: "Dominate the competition with this RGB mechanical keyboard. Features customizable lighting, programmable keys, and responsive switches for ultimate gaming performance.",
+                images: [
+                    "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800&q=80",
+                    "https://images.unsplash.com/photo-1595225476474-87563907a212?w=800&q=80",
+                    "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=800&q=80"
+                ],
+                amazonLink: "https://amazon.com"
+            }
+        ];
+
+        function createCarousel(images, index) {
+            return `
+                <div class="carousel" data-product="${index}">
+                    <div class="carousel-inner">
+                        ${images.map(img => `
+                            <div class="carousel-slide">
+                                <img src="${img}" alt="Product image">
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button class="carousel-btn prev" onclick="moveSlide(${index}, -1)">❮</button>
+                    <button class="carousel-btn next" onclick="moveSlide(${index}, 1)">❯</button>
+                    <div class="carousel-dots">
+                        ${images.map((_, i) => `
+                            <span class="dot ${i === 0 ? 'active' : ''}" onclick="goToSlide(${index}, ${i})"></span>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = products.map((product, index) => `
+                <div class="product-card">
+                    ${createCarousel(product.images, index)}
+                    <div class="product-info">
+                        <h2 class="product-title">${product.title}</h2>
+                        <p class="product-description">${product.description}</p>
+                        <a href="${product.amazonLink}" target="_blank" class="amazon-btn">View on Amazon →</a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        const carouselStates = products.map(() => ({ currentSlide: 0 }));
+
+        function moveSlide(productIndex, direction) {
+            const state = carouselStates[productIndex];
+            const totalSlides = products[productIndex].images.length;
+            
+            state.currentSlide = (state.currentSlide + direction + totalSlides) % totalSlides;
+            updateCarousel(productIndex);
+        }
+
+        function goToSlide(productIndex, slideIndex) {
+            carouselStates[productIndex].currentSlide = slideIndex;
+            updateCarousel(productIndex);
+        }
+
+        function updateCarousel(productIndex) {
+            const carousel = document.querySelector(`[data-product="${productIndex}"]`);
+            const inner = carousel.querySelector('.carousel-inner');
+            const dots = carousel.querySelectorAll('.dot');
+            const currentSlide = carouselStates[productIndex].currentSlide;
+            
+            inner.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        renderProducts();
+    </script>
+</body>
+</html>
