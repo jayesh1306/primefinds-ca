@@ -148,7 +148,7 @@ function renderProducts() {
                 <h3 class="product-title">${product.title}</h3>
                 <p class="product-desc">${product.description}</p>
                 <div class="product-footer">
-                    <span class="price">${product.price}</span>
+                    <span class="price">$${product.price}</span>
                     <button class="buy-btn" onclick="window.open('${product.link}', '_blank')">View on Amazon</button>
                 </div>
             </div>
