@@ -12,7 +12,7 @@ async function loadProducts() {
             products = data.products || [];
             console.log('✅ Products loaded from products.json');
             renderProducts();
-            renderAdminProducts();
+            if (document.getElementById('adminProductGrid')) renderAdminProducts();
             return;
         }
     } catch (error) {
@@ -29,7 +29,7 @@ async function loadProducts() {
     }
 
     renderProducts();
-    renderAdminProducts();
+    if (document.getElementById('adminProductGrid')) renderAdminProducts();
 }
 
 function saveProducts() {
@@ -87,8 +87,10 @@ function showSuccessMessage(message) {
 }
 
 function checkRoute() {
-    const hash = window.location.hash;
-    if (hash === '#admin' || hash === '#admin-panel') {
+    // Use query param ?admin=1 or ?admin=true to open admin without hash
+    const params = new URLSearchParams(window.location.search);
+    const isAdmin = params.get('admin') === '1' || params.get('admin') === 'true';
+    if (isAdmin) {
         showAdminPanel();
     } else {
         showPublicSite();
@@ -108,7 +110,15 @@ function showPublicSite() {
 }
 
 function goToPublicSite() {
-    window.location.hash = '';
+    // Remove admin query param from URL (so no #admin or ?admin remains)
+    try {
+        const url = new URL(window.location.href);
+        url.searchParams.delete('admin');
+        history.replaceState(null, '', url.pathname + url.search + url.hash);
+    } catch (e) {
+        // fallback: remove hash only
+        try { history.replaceState(null, '', window.location.pathname); } catch (e) {}
+    }
     showPublicSite();
 }
 
@@ -300,6 +310,7 @@ if (productModal) {
 }
 
 window.addEventListener('hashchange', checkRoute);
+window.addEventListener('popstate', checkRoute);
 
 loadProducts();
 checkRoute();
