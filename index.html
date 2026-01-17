@@ -1,52 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>PrimeFinds Canada | Best Deals & Top Picks</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Top product recommendations and deals in Canada. Honest reviews and best prices.">
-
 <style>
-/* Global Styles */
-body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    color: #333;
-}
-a {
-    text-decoration: none;
-}
-
-/* Header */
-header {
-    background: #232f3e;
-    color: #fff;
-    padding: 30px 20px;
-    text-align: center;
-}
-header h1 {
-    margin: 0;
-    font-size: 2.2em;
-    font-weight: 700;
-}
-header p {
-    margin: 5px 0 0;
-    font-size: 1em;
-    color: #ddd;
-}
-
-/* Container */
-.container {
-    max-width: 1100px;
-    margin: auto;
-    padding: 30px 20px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
-}
-
 /* Product Card */
 .product {
     background: #fff;
@@ -57,76 +9,74 @@ header p {
     align-items: center;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     transition: transform 0.2s, box-shadow 0.2s;
+    width: 280px;   /* fixed width */
+    height: 450px;  /* fixed height */
 }
 .product:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
-.product img {
+
+/* Carousel Container */
+.carousel {
+    position: relative;
     width: 180px;
     height: 180px;
-    object-fit: contain;
+    overflow: hidden;
     border-radius: 8px;
     margin-bottom: 15px;
 }
-.product h2 {
-    margin: 0 0 10px;
-    font-size: 1.2em;
-    text-align: center;
-    color: #222;
+.carousel img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.5s;
+    opacity: 0;
 }
-.product p {
-    font-size: 0.95em;
-    color: #555;
-    line-height: 1.4em;
-    text-align: center;
-    max-height: 3.6em; /* 2 lines */
-    overflow: hidden;
-    text-overflow: ellipsis;
+.carousel img.active {
+    opacity: 1;
 }
 
-/* Button */
+/* Carousel Buttons */
+.carousel button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.4);
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.carousel button.prev { left: 5px; }
+.carousel button.next { right: 5px; }
+
+/* Card Text & Button */
+.product h2 {
+    font-size: 1.1em;
+    text-align: center;
+    margin: 10px 0 5px;
+}
+.product p {
+    font-size: 0.9em;
+    text-align: center;
+    overflow: hidden;
+    max-height: 3.6em;
+}
 .product a {
-    margin-top: 12px;
+    margin-top: auto;
     background: #ff9900;
     color: #000;
     font-weight: bold;
-    padding: 10px 20px;
+    padding: 8px 15px;
     border-radius: 6px;
-    transition: background 0.2s;
 }
-.product a:hover {
-    background: #e68a00;
-}
-
-/* Footer */
-footer {
-    text-align: center;
-    font-size: 14px;
-    padding: 20px;
-    background: #f0f0f0;
-    color: #666;
-    margin-top: 40px;
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-    header h1 {
-        font-size: 1.6em;
-    }
-    .product img {
-        width: 140px;
-        height: 140px;
-    }
-}
+.product a:hover { background: #e68a00; }
 </style>
-</head>
-<body>
-
-<header>
-    <h1>PrimeFinds Canada</h1>
-    <p>Top deals, honest reviews & trusted recommendations</p>
-</header>
 
 <div class="container" id="products"></div>
 
@@ -136,28 +86,64 @@ fetch("products.json")
   .then(products => {
     const container = document.getElementById("products");
 
-    products.forEach(p => {   // <-- use products directly, no .items
-      container.innerHTML += `
-        <div class="product">
-          <img src="${p.image}" alt="${p.name}">
-          <h2>${p.name}</h2>
-          <p title="${p.description}">
-            ${p.description.length > 120 ? p.description.slice(0,120) + "..." : p.description}
-          </p>
-          <a href="${p.link}" target="_blank" rel="nofollow sponsored noopener">
-            View on Amazon
-          </a>
-        </div>
-      `;
+    products.forEach((p, index) => {
+      const card = document.createElement("div");
+      card.className = "product";
+
+      // Carousel
+      const carousel = document.createElement("div");
+      carousel.className = "carousel";
+
+      p.images.forEach((img, i) => {
+        const image = document.createElement("img");
+        image.src = img;
+        if(i === 0) image.classList.add("active");
+        carousel.appendChild(image);
+      });
+
+      // Carousel buttons
+      const prevBtn = document.createElement("button");
+      prevBtn.className = "prev";
+      prevBtn.innerText = "<";
+      const nextBtn = document.createElement("button");
+      nextBtn.className = "next";
+      nextBtn.innerText = ">";
+
+      carousel.appendChild(prevBtn);
+      carousel.appendChild(nextBtn);
+      card.appendChild(carousel);
+
+      // Product info
+      const h2 = document.createElement("h2");
+      h2.innerText = p.name;
+      const desc = document.createElement("p");
+      desc.innerText = p.description.length > 120 ? p.description.slice(0,120)+"..." : p.description;
+      const link = document.createElement("a");
+      link.href = p.link;
+      link.target = "_blank";
+      link.rel = "nofollow sponsored noopener";
+      link.innerText = "View on Amazon";
+
+      card.appendChild(h2);
+      card.appendChild(desc);
+      card.appendChild(link);
+
+      container.appendChild(card);
+
+      // Carousel functionality
+      let current = 0;
+      const images = carousel.querySelectorAll("img");
+      prevBtn.onclick = () => {
+        images[current].classList.remove("active");
+        current = (current - 1 + images.length) % images.length;
+        images[current].classList.add("active");
+      };
+      nextBtn.onclick = () => {
+        images[current].classList.remove("active");
+        current = (current + 1) % images.length;
+        images[current].classList.add("active");
+      };
     });
   })
   .catch(err => console.error("Failed to load products:", err));
 </script>
-
-
-<footer>
-    <p>As an Amazon Associate, I earn from qualifying purchases.</p>
-</footer>
-
-</body>
-</html>
