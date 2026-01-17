@@ -874,7 +874,12 @@
                 const response = await fetch('products.json');
                 if (response.ok) {
                     const data = await response.json();
-                    products = data.products || [];
+                    // Accept either { products: [...] } or a top-level array
+                    if (Array.isArray(data)) {
+                        products = data;
+                    } else {
+                        products = data.products || [];
+                    }
                     console.log('✅ Products loaded from products.json');
                     renderProducts();
                     renderAdminProducts();
@@ -938,15 +943,20 @@
             reader.onload = function(e) {
                 try {
                     const data = JSON.parse(e.target.result);
-                    if (data.products && Array.isArray(data.products)) {
+                    // Accept either { products: [...] } or a top-level array
+                    if (Array.isArray(data)) {
+                        products = data;
+                    } else if (data.products && Array.isArray(data.products)) {
                         products = data.products;
-                        saveProducts();
-                        renderAdminProducts();
-                        renderProducts();
-                        showSuccessMessage('✅ Products imported successfully!');
                     } else {
-                        alert('Invalid JSON format. Expected: {"products": [...]}');
+                        alert('Invalid JSON format. Expected: either an array of products or {"products": [...]}');
+                        return;
                     }
+
+                    saveProducts();
+                    renderAdminProducts();
+                    renderProducts();
+                    showSuccessMessage('✅ Products imported successfully!');
                 } catch (error) {
                     alert('Error reading JSON file: ' + error.message);
                 }
