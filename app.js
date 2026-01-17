@@ -9,7 +9,8 @@ const sampleProducts = [
         price: '$89.99',
         image: '🎧',
         badge: 'Best Seller',
-        link: 'https://amazon.com'
+        link: 'https://amazon.com',
+        visible: true
     },
     {
         id: Date.now() + 2,
@@ -18,7 +19,8 @@ const sampleProducts = [
         price: '$49.99',
         image: '💻',
         badge: 'New',
-        link: 'https://amazon.com'
+        link: 'https://amazon.com',
+        visible: true
     },
     {
         id: Date.now() + 3,
@@ -27,7 +29,8 @@ const sampleProducts = [
         price: '$129.99',
         image: '⌚',
         badge: 'Trending',
-        link: 'https://amazon.com'
+        link: 'https://amazon.com',
+        visible: true
     }
 ];
 
@@ -144,7 +147,9 @@ function renderProducts() {
     if (!grid) return;
     grid.innerHTML = '';
 
-    if (products.length === 0) {
+    const visibleProducts = products.filter(p => p.visible !== false);
+
+    if (visibleProducts.length === 0) {
         grid.innerHTML = `
             <div class="empty-state">
                 <div class="empty-state-icon">📦</div>
@@ -155,7 +160,7 @@ function renderProducts() {
         return;
     }
 
-    products.forEach(product => {
+    visibleProducts.forEach(product => {
         const card = document.createElement('div');
         card.className = 'product-card';
         
@@ -197,7 +202,6 @@ function renderAdminProducts() {
         `;
         return;
     }
-
     products.forEach(product => {
         const card = document.createElement('div');
         card.className = 'admin-product-card';
@@ -206,7 +210,6 @@ function renderAdminProducts() {
         const imageContent = isImageUrl 
             ? `<img src="${product.image}" alt="${product.title}">`
             : (product.image || '📦');
-
         card.innerHTML = `
             <div class="admin-product-image">
                 ${imageContent}
@@ -217,11 +220,13 @@ function renderAdminProducts() {
                 <div class="admin-product-meta">
                     <span>💰 ${product.price}</span>
                     ${product.badge ? `<span>🏷️ ${product.badge}</span>` : ''}
+                    <span style="margin-left:8px; font-size:0.9rem; color:${product.visible === false ? '#888' : '#2d8a4d'}">${product.visible === false ? 'Private' : 'Public'}</span>
                 </div>
             </div>
             <div class="admin-actions">
                 <button class="edit-btn" onclick="editProduct(${product.id})">Edit</button>
                 <button class="delete-btn" onclick="deleteProduct(${product.id})">Delete</button>
+                <button class="back-btn" style="margin-left:6px;" onclick="toggleVisibility(${product.id})">${product.visible === false ? 'Make Public' : 'Make Private'}</button>
             </div>
         `;
         grid.appendChild(card);
@@ -251,6 +256,8 @@ function editProduct(id) {
     document.getElementById('productImage').value = product.image || '';
     document.getElementById('productBadge').value = product.badge || '';
     document.getElementById('productLink').value = product.link;
+    const visibleCheckbox = document.getElementById('productVisible');
+    if (visibleCheckbox) visibleCheckbox.checked = product.visible !== false;
     
     const modal = document.getElementById('productModal');
     if (modal) modal.classList.add('active');
@@ -264,6 +271,16 @@ function deleteProduct(id) {
         renderProducts();
         showSuccessMessage('✅ Product deleted successfully!');
     }
+}
+
+function toggleVisibility(id) {
+    const index = products.findIndex(p => p.id === id);
+    if (index === -1) return;
+    products[index].visible = !(products[index].visible === undefined ? true : products[index].visible);
+    saveProducts();
+    renderAdminProducts();
+    renderProducts();
+    showSuccessMessage(products[index].visible ? '✅ Product is now public' : '✅ Product is now private');
 }
 
 function closeModal() {
@@ -283,7 +300,8 @@ if (productForm) {
             price: document.getElementById('productPrice').value,
             image: document.getElementById('productImage').value || '📦',
             badge: document.getElementById('productBadge').value,
-            link: document.getElementById('productLink').value
+            link: document.getElementById('productLink').value,
+            visible: (document.getElementById('productVisible') ? document.getElementById('productVisible').checked : true)
         };
 
         if (editingProductId) {
