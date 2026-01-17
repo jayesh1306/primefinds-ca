@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrimeFinds Canada - Admin</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="admin-only" id="adminMain">
+        <header>
+            <nav>
+                <a class="logo" href="index.html" aria-label="Back to site">← PrimeFinds Canada</a>
+                <div style="margin-left:auto; display:flex; gap:8px; align-items:center;">
+                    <span id="localNotice" style="font-size:0.95rem; color:#b33; display:none;">Admin is available locally only.</span>
+                    <button id="saveDiskBtn" class="export-btn">💾 Save to disk</button>
+                    <button id="exportBtn" class="export-btn">📥 Export JSON</button>
+                    <button id="importBtn" class="import-btn">📤 Import JSON</button>
+                </div>
+            </nav>
+        </header>
+
+        <section class="admin-container">
+            <div class="admin-info-box">
+                <h3>📋 Admin — Manage Products (local only)</h3>
+                <ol>
+                    <li>When running locally (file:// or localhost) you can save directly to <code>products.json</code>.</li>
+                    <li>If direct save isn't supported by your browser, use "Export JSON" and replace the file manually in the project folder.</li>
+                    <li>After updating <code>products.json</code>, commit & push to GitHub to publish changes.</li>
+                </ol>
+            </div>
+
+            <div id="successMessage"></div>
+
+            <button class="add-new-btn" id="addNewBtn"><span>+</span> Add New Product</button>
+
+            <div class="admin-product-grid" id="adminProductGrid"></div>
+
+            <input type="file" id="fileInput" accept=".json" style="display:none">
+        </section>
+
+        <!-- Product Modal -->
+        <div class="modal" id="productModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalTitle">Add New Product</h2>
+                    <button class="close-btn" id="modalCloseBtn">&times;</button>
+                </div>
+                <form id="productForm">
+                    <div class="form-group">
+                        <label>Product Title *</label>
+                        <input type="text" id="productTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description *</label>
+                        <textarea id="productDesc" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Price *</label>
+                        <input type="text" id="productPrice" placeholder="$99.99" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Image URL or Emoji</label>
+                        <input type="text" id="productImage" placeholder="🎧 or https://...">
+                    </div>
+                    <div class="form-group">
+                        <label>Badge (optional)</label>
+                        <input type="text" id="productBadge" placeholder="Best Seller, New, Hot Deal, etc.">
+                    </div>
+                    <div class="form-group">
+                        <label>Amazon Affiliate Link *</label>
+                        <input type="url" id="productLink" placeholder="https://amazon.com/..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="productVisible" checked>
+                            &nbsp;Visible to public (checked = visible)
+                        </label>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="cancelBtn">Cancel</button>
+                        <button type="submit" class="btn-primary">Save Product</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="admin.js" defer></script>
+</body>
+</html>
