@@ -2,36 +2,6 @@ let products = [];
 let editingProductId = null;
 
 const sampleProducts = [
-    {
-        id: Date.now() + 1,
-        title: 'Premium Wireless Headphones',
-        description: 'Crystal clear sound with active noise cancellation. 30-hour battery life.',
-        price: '$89.99',
-        image: '🎧',
-        badge: 'Best Seller',
-        link: 'https://amazon.com',
-        visible: true
-    },
-    {
-        id: Date.now() + 2,
-        title: 'Laptop Stand Pro',
-        description: 'Ergonomic aluminum stand for better posture and cooling.',
-        price: '$49.99',
-        image: '💻',
-        badge: 'New',
-        link: 'https://amazon.com',
-        visible: true
-    },
-    {
-        id: Date.now() + 3,
-        title: 'Smart Fitness Watch',
-        description: 'Track your health, workouts, and stay connected on the go.',
-        price: '$129.99',
-        image: '⌚',
-        badge: 'Trending',
-        link: 'https://amazon.com',
-        visible: true
-    }
 ];
 
 async function loadProducts() {
