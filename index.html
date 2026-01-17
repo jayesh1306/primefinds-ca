@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Top Picks - Your Amazon Finds</title>
+    <title>PrimeFinds Canada - Your Amazon Finds</title>
     <style>
         * {
             margin: 0;
@@ -18,7 +18,6 @@
             overflow-x: hidden;
         }
 
-        /* Public Site Styles */
         .public-site {
             display: block;
         }
@@ -270,7 +269,6 @@
             padding: 2rem;
         }
 
-        /* Admin Panel Styles */
         .admin-panel {
             min-height: 100vh;
             background: #f5f7fa;
@@ -291,15 +289,45 @@
             font-weight: bold;
         }
 
-        .back-btn {
-            background: #e0e0e0;
-            color: #333;
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .export-btn, .import-btn, .back-btn {
             padding: 0.75rem 1.5rem;
             border: none;
             border-radius: 25px;
             cursor: pointer;
             font-weight: bold;
             transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .export-btn {
+            background: #4caf50;
+            color: white;
+        }
+
+        .export-btn:hover {
+            background: #45a049;
+        }
+
+        .import-btn {
+            background: #2196F3;
+            color: white;
+        }
+
+        .import-btn:hover {
+            background: #0b7dda;
+        }
+
+        .back-btn {
+            background: #e0e0e0;
+            color: #333;
         }
 
         .back-btn:hover {
@@ -310,6 +338,29 @@
             max-width: 1400px;
             margin: 2rem auto;
             padding: 0 2rem;
+        }
+
+        .admin-info-box {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .admin-info-box h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .admin-info-box p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .admin-info-box ol {
+            margin: 1rem 0 0 1.5rem;
+            line-height: 1.8;
         }
 
         .add-new-btn {
@@ -422,7 +473,6 @@
             background: #da190b;
         }
 
-        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -545,6 +595,20 @@
             margin-bottom: 1rem;
         }
 
+        #fileInput {
+            display: none;
+        }
+
+        .success-message {
+            background: #4caf50;
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            text-align: center;
+            animation: slideDown 0.3s ease;
+        }
+
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2rem;
@@ -562,6 +626,11 @@
                 width: 100%;
                 height: 150px;
             }
+
+            .header-actions {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
         }
     </style>
 </head>
@@ -570,7 +639,7 @@
     <div class="public-site" id="publicSite">
         <header>
             <nav>
-                <div class="logo">TopPicks</div>
+                <div class="logo">PrimeFinds Canada</div>
                 <ul class="nav-links">
                     <li><a href="#home">Home</a></li>
                     <li><a href="#products">Products</a></li>
@@ -615,7 +684,7 @@
         </section>
 
         <footer>
-            <p>&copy; 2026 TopPicks. As an Amazon Associate, we earn from qualifying purchases.</p>
+            <p>&copy; 2026 PrimeFinds Canada. As an Amazon Associate, we earn from qualifying purchases.</p>
             <p style="margin-top: 1rem; opacity: 0.7;">Disclaimer: Prices and availability subject to change.</p>
         </footer>
     </div>
@@ -623,11 +692,28 @@
     <!-- Admin Panel -->
     <div class="admin-panel" id="adminPanel">
         <div class="admin-header">
-            <h1 class="admin-title">🔐 Admin Dashboard</h1>
-            <button class="back-btn" onclick="goToPublicSite()">← Back to Site</button>
+            <h1 class="admin-title">🔐 PrimeFinds Canada - Admin Dashboard</h1>
+            <div class="header-actions">
+                <button class="export-btn" onclick="exportProducts()">📥 Export JSON</button>
+                <button class="import-btn" onclick="document.getElementById('fileInput').click()">📤 Import JSON</button>
+                <button class="back-btn" onclick="goToPublicSite()">← Back to Site</button>
+            </div>
         </div>
 
         <div class="admin-container">
+            <div class="admin-info-box">
+                <h3>📋 How to Update Your Website:</h3>
+                <ol>
+                    <li><strong>Manage Products:</strong> Add/edit/delete products here (saved in your browser)</li>
+                    <li><strong>Export JSON:</strong> Click "Export JSON" to download products.json file</li>
+                    <li><strong>Upload to Server:</strong> Upload products.json to your web server (same folder as index.html)</li>
+                    <li><strong>Done!</strong> Your website will automatically load products from the JSON file</li>
+                </ol>
+                <p style="margin-top: 1rem;"><strong>💡 Tip:</strong> After uploading products.json, all visitors will see your latest products!</p>
+            </div>
+
+            <div id="successMessage"></div>
+
             <button class="add-new-btn" onclick="openAddModal()">
                 <span>+</span> Add New Product
             </button>
@@ -635,6 +721,8 @@
             <div class="admin-product-grid" id="adminProductGrid"></div>
         </div>
     </div>
+
+    <input type="file" id="fileInput" accept=".json" onchange="importProducts(event)">
 
     <!-- Product Modal -->
     <div class="modal" id="productModal">
@@ -680,7 +768,6 @@
         let products = [];
         let editingProductId = null;
 
-        // Initialize with sample products
         const sampleProducts = [
             {
                 id: Date.now() + 1,
@@ -711,20 +798,87 @@
             }
         ];
 
-        // Load products from localStorage
-        function loadProducts() {
+        async function loadProducts() {
+            try {
+                const response = await fetch('products.json');
+                if (response.ok) {
+                    const data = await response.json();
+                    products = data.products || [];
+                    console.log('✅ Products loaded from products.json');
+                    renderProducts();
+                    renderAdminProducts();
+                    return;
+                }
+            } catch (error) {
+                console.log('ℹ️ No products.json file found, using localStorage');
+            }
+
             const saved = localStorage.getItem('products');
-            products = saved ? JSON.parse(saved) : sampleProducts;
+            if (saved) {
+                products = JSON.parse(saved);
+                console.log('✅ Products loaded from localStorage');
+            } else {
+                products = sampleProducts;
+                console.log('✅ Using sample products');
+            }
+
             renderProducts();
             renderAdminProducts();
         }
 
-        // Save products to localStorage
         function saveProducts() {
             localStorage.setItem('products', JSON.stringify(products));
+            console.log('✅ Products saved to localStorage');
         }
 
-        // Check URL for admin access
+        function exportProducts() {
+            const dataStr = JSON.stringify({ products: products }, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'products.json';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            showSuccessMessage('✅ products.json downloaded! Upload it to your web server.');
+        }
+
+        function importProducts(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (data.products && Array.isArray(data.products)) {
+                        products = data.products;
+                        saveProducts();
+                        renderAdminProducts();
+                        renderProducts();
+                        showSuccessMessage('✅ Products imported successfully!');
+                    } else {
+                        alert('Invalid JSON format. Expected: {"products": [...]}');
+                    }
+                } catch (error) {
+                    alert('Error reading JSON file: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        function showSuccessMessage(message) {
+            const container = document.getElementById('successMessage');
+            container.innerHTML = `<div class="success-message">${message}</div>`;
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
         function checkRoute() {
             const hash = window.location.hash;
             if (hash === '#admin' || hash === '#admin-panel') {
@@ -734,27 +888,23 @@
             }
         }
 
-        // Show admin panel
         function showAdminPanel() {
             document.getElementById('publicSite').style.display = 'none';
             document.getElementById('adminPanel').style.display = 'block';
             renderAdminProducts();
         }
 
-        // Show public site
         function showPublicSite() {
             document.getElementById('publicSite').style.display = 'block';
             document.getElementById('adminPanel').style.display = 'none';
             renderProducts();
         }
 
-        // Go to public site
         function goToPublicSite() {
             window.location.hash = '';
             showPublicSite();
         }
 
-        // Render products on public site
         function renderProducts() {
             const grid = document.getElementById('productGrid');
             grid.innerHTML = '';
@@ -774,10 +924,10 @@
                 const card = document.createElement('div');
                 card.className = 'product-card';
                 
-                const isImageUrl = product.image.startsWith('http');
+                const isImageUrl = product.image && product.image.startsWith('http');
                 const imageContent = isImageUrl 
                     ? `<img src="${product.image}" alt="${product.title}">`
-                    : product.image;
+                    : (product.image || '📦');
 
                 card.innerHTML = `
                     <div class="product-image">
@@ -797,7 +947,6 @@
             });
         }
 
-        // Render products in admin panel
         function renderAdminProducts() {
             const grid = document.getElementById('adminProductGrid');
             grid.innerHTML = '';
@@ -817,10 +966,10 @@
                 const card = document.createElement('div');
                 card.className = 'admin-product-card';
                 
-                const isImageUrl = product.image.startsWith('http');
+                const isImageUrl = product.image && product.image.startsWith('http');
                 const imageContent = isImageUrl 
                     ? `<img src="${product.image}" alt="${product.title}">`
-                    : product.image;
+                    : (product.image || '📦');
 
                 card.innerHTML = `
                     <div class="admin-product-image">
@@ -843,7 +992,6 @@
             });
         }
 
-        // Open add modal
         function openAddModal() {
             editingProductId = null;
             document.getElementById('modalTitle').textContent = 'Add New Product';
@@ -851,7 +999,6 @@
             document.getElementById('productModal').classList.add('active');
         }
 
-        // Edit product
         function editProduct(id) {
             const product = products.find(p => p.id === id);
             if (!product) return;
@@ -861,30 +1008,28 @@
             document.getElementById('productTitle').value = product.title;
             document.getElementById('productDesc').value = product.description;
             document.getElementById('productPrice').value = product.price;
-            document.getElementById('productImage').value = product.image;
+            document.getElementById('productImage').value = product.image || '';
             document.getElementById('productBadge').value = product.badge || '';
             document.getElementById('productLink').value = product.link;
             
             document.getElementById('productModal').classList.add('active');
         }
 
-        // Delete product
         function deleteProduct(id) {
             if (confirm('Are you sure you want to delete this product?')) {
                 products = products.filter(p => p.id !== id);
                 saveProducts();
                 renderAdminProducts();
                 renderProducts();
+                showSuccessMessage('✅ Product deleted successfully!');
             }
         }
 
-        // Close modal
         function closeModal() {
             document.getElementById('productModal').classList.remove('active');
             editingProductId = null;
         }
 
-        // Handle form submission
         document.getElementById('productForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -900,9 +1045,11 @@
             if (editingProductId) {
                 const index = products.findIndex(p => p.id === editingProductId);
                 products[index] = { ...products[index], ...productData };
+                showSuccessMessage('✅ Product updated successfully!');
             } else {
                 productData.id = Date.now();
                 products.push(productData);
+                showSuccessMessage('✅ Product added successfully!');
             }
 
             saveProducts();
@@ -911,15 +1058,12 @@
             closeModal();
         });
 
-        // Close modal on outside click
         document.getElementById('productModal').addEventListener('click', function(e) {
             if (e.target === this) closeModal();
         });
 
-        // Listen for hash changes
         window.addEventListener('hashchange', checkRoute);
 
-        // Initialize
         loadProducts();
         checkRoute();
     </script>
