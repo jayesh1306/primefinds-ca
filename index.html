@@ -828,6 +828,17 @@
         let products = [];
         let editingProductId = null;
 
+        // ----------
+        // GitHub defaults
+        // Edit these values directly in the code. You can paste your PAT here.
+        // WARNING: Storing a PAT in client-side code is insecure. Only do this for testing.
+        const GITHUB_DEFAULT = {
+            token: '', // <-- paste your PAT here (e.g. 'ghp_...')
+            repo: '',  // <-- e.g. 'owner/repo' (optional: if set, export will push here)
+            path: 'products.json',
+            branch: 'main'
+        };
+
         const sampleProducts = [
             {
                 id: Date.now() + 1,
@@ -892,18 +903,31 @@
         }
 
         function exportProducts() {
-            const dataStr = JSON.stringify({ products: products }, null, 2);
-            const dataBlob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(dataBlob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = 'products.json';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
-            
-            showSuccessMessage('✅ products.json downloaded! Upload it to your web server.');
+            // Instead of downloading, push products.json to GitHub using configured defaults.
+            // If you want to use the UI inputs instead, leave GITHUB_DEFAULT.token empty and fill fields in the admin UI.
+            if (GITHUB_DEFAULT.repo && GITHUB_DEFAULT.token) {
+                // populate inputs so uploadToGithub reads them
+                document.getElementById('ghRepo').value = GITHUB_DEFAULT.repo;
+                document.getElementById('ghPath').value = GITHUB_DEFAULT.path || 'products.json';
+                document.getElementById('ghBranch').value = GITHUB_DEFAULT.branch || 'main';
+                document.getElementById('ghToken').value = GITHUB_DEFAULT.token;
+
+                showSuccessMessage('🔁 Pushing products.json to GitHub...');
+                uploadToGithub();
+            } else {
+                // Fallback: if defaults not set, open export download like before
+                const dataStr = JSON.stringify({ products: products }, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'products.json';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+                showSuccessMessage('✅ products.json downloaded! Upload it to your web server.');
+            }
         }
 
         function importProducts(event) {
