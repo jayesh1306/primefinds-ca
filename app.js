@@ -283,6 +283,28 @@ function toggleVisibility(id) {
     showSuccessMessage(products[index].visible ? '✅ Product is now public' : '✅ Product is now private');
 }
 
+// Attempt to save products.json to the server. This requires the server to accept PUT/POST
+// requests to /products.json (and proper CORS/permissions). If you're hosting on static
+// file hosts (GitHub Pages), this will fail — use Export JSON to download and upload manually.
+async function saveToServer() {
+    try {
+        const res = await fetch('products.json', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ products: products }, null, 2)
+        });
+
+        if (res.ok) {
+            showSuccessMessage('✅ products.json saved on server (server accepted PUT)');
+        } else {
+            const text = await res.text().catch(() => '');
+            showSuccessMessage('⚠️ Failed to save to server: ' + (res.status + ' ' + res.statusText + ' ' + text));
+        }
+    } catch (err) {
+        showSuccessMessage('⚠️ Save to server failed: ' + err.message + '. Use Export JSON to download and upload manually.');
+    }
+}
+
 function closeModal() {
     const modal = document.getElementById('productModal');
     if (modal) modal.classList.remove('active');
