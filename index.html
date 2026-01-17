@@ -740,6 +740,38 @@
                 <p style="margin-top: 1rem;"><strong>💡 Tip:</strong> After uploading products.json, all visitors will see your latest products!</p>
             </div>
 
+            <!-- GitHub Upload Box -->
+            <div class="admin-info-box" style="margin-top:1rem;">
+                <h3>🔁 Upload products.json to GitHub</h3>
+                <p style="opacity:0.95;">Use this to push the current products (saved locally) to a GitHub repository. You will need a Personal Access Token (repo scope). Tokens are not stored permanently — use with caution.</p>
+
+                <div class="form-group">
+                    <label>Repository (owner/repo)</label>
+                    <input type="text" id="ghRepo" placeholder="owner/repo">
+                </div>
+
+                <div class="form-group">
+                    <label>File path (in repo)</label>
+                    <input type="text" id="ghPath" value="products.json">
+                </div>
+
+                <div class="form-group">
+                    <label>Branch</label>
+                    <input type="text" id="ghBranch" value="main">
+                </div>
+
+                <div class="form-group">
+                    <label>Personal Access Token (PAT)</label>
+                    <input type="password" id="ghToken" placeholder="ghp_..." autocomplete="new-password">
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn-primary" onclick="uploadToGithub()">Push to GitHub</button>
+                </div>
+
+                <div id="ghMessage" style="margin-top:0.75rem;"></div>
+            </div>
+
             <div id="successMessage"></div>
 
             <button class="add-new-btn" onclick="openAddModal()">
@@ -897,6 +929,94 @@
             };
             reader.readAsText(file);
             event.target.value = '';
+        }
+
+        // -------------------------
+        // GitHub upload helpers
+        // -------------------------
+        async function uploadToGithub() {
+            const repo = document.getElementById('ghRepo').value.trim();
+            const path = document.getElementById('ghPath').value.trim() || 'products.json';
+            const branch = document.getElementById('ghBranch').value.trim() || 'main';
+            const token = document.getElementById('ghToken').value.trim();
+            const msgContainer = document.getElementById('ghMessage');
+            msgContainer.innerHTML = '';
+
+            if (!repo) return showGithubMessage('Please enter the repository in the form owner/repo', true);
+            if (!token) return showGithubMessage('Please provide a Personal Access Token with repo permissions', true);
+
+            const [owner, repoName] = repo.split('/');
+            if (!owner || !repoName) return showGithubMessage('Repository must be in the format owner/repo', true);
+
+            const apiUrl = `https://api.github.com/repos/${owner}/${repoName}/contents/${encodeURIComponent(path)}`;
+
+            // Prepare file content
+            const payloadObj = { products: products };
+            const contentStr = JSON.stringify(payloadObj, null, 2);
+            const encoded = btoa(unescape(encodeURIComponent(contentStr)));
+
+            // Try to get existing file sha (if present) to update instead of create
+            let sha = null;
+            try {
+                const res = await fetch(apiUrl + `?ref=${encodeURIComponent(branch)}`, {
+                    headers: {
+                        'Authorization': 'token ' + token,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    sha = data.sha;
+                } else if (res.status === 404) {
+                    sha = null; // file does not exist yet
+                } else if (res.status === 401 || res.status === 403) {
+                    return showGithubMessage('Authentication failed (invalid token or insufficient permissions).', true);
+                } else {
+                    // continue and attempt create
+                    sha = null;
+                }
+            } catch (err) {
+                return showGithubMessage('Network error while checking file: ' + err.message, true);
+            }
+
+            const body = {
+                message: sha ? `Update ${path} via Admin UI` : `Create ${path} via Admin UI`,
+                content: encoded,
+                branch: branch
+            };
+            if (sha) body.sha = sha;
+
+            try {
+                const putRes = await fetch(apiUrl, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': 'token ' + token,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                });
+
+                const putData = await putRes.json();
+                if (putRes.ok) {
+                    const commitUrl = putData.commit && putData.commit.html_url ? putData.commit.html_url : '';
+                    showGithubMessage('✅ products.json uploaded to GitHub' + (commitUrl ? ` — <a href="${commitUrl}" target="_blank">view commit</a>` : ''), false);
+                    // clear token field for safety
+                    document.getElementById('ghToken').value = '';
+                } else {
+                    const msg = putData && putData.message ? putData.message : 'Unknown error';
+                    showGithubMessage('Error uploading file: ' + msg, true);
+                }
+            } catch (err) {
+                showGithubMessage('Network error while uploading file: ' + err.message, true);
+            }
+        }
+
+        function showGithubMessage(message, isError = false) {
+            const el = document.getElementById('ghMessage');
+            el.innerHTML = `<div class="success-message" style="background:${isError ? '#f44336' : '#4caf50'}">${message}</div>`;
+            setTimeout(() => { el.innerHTML = ''; }, 8000);
         }
 
         function showSuccessMessage(message) {
