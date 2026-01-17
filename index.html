@@ -80,6 +80,52 @@
     <!-- Admin Panel -->
     <div class="admin-panel" id="adminPanel">
     <!-- Admin UI moved to admin.html -->
+    <!-- Embedded admin placeholder (hidden). Access via ?admin=1 and password. -->
+    <div id="embeddedAdmin" style="display:none"></div>
+    <script>
+        (function(){
+            const params = new URLSearchParams(window.location.search);
+            const isAdmin = params.get('admin') === '1' || params.get('admin') === 'true';
+            if (!isAdmin) return;
+
+            // WARNING: This is a client-side password gate for convenience only.
+            // It prevents casual access via the URL but is NOT a secure server-side auth.
+            // Change the password below before using in production.
+            const ADMIN_EMBED_PASSWORD = 'admin123';
+            const entered = prompt('Enter admin password to access the embedded admin panel:');
+            if (entered !== ADMIN_EMBED_PASSWORD) {
+                alert('Access denied');
+                try {
+                    const url = new URL(window.location.href);
+                    url.searchParams.delete('admin');
+                    history.replaceState(null, '', url.pathname + url.search + url.hash);
+                } catch (e) {}
+                return;
+            }
+
+            // Load admin.html and inject the main admin UI into the page
+            fetch('admin.html').then(r => r.text()).then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const main = doc.querySelector('main.admin-only');
+                if (!main) {
+                    alert('Failed to load admin UI');
+                    return;
+                }
+                const container = document.getElementById('embeddedAdmin');
+                container.style.display = 'block';
+                container.innerHTML = main.innerHTML;
+
+                // load admin.js dynamically
+                const s = document.createElement('script');
+                s.src = 'admin.js';
+                s.defer = true;
+                document.body.appendChild(s);
+            }).catch(err => {
+                alert('Error loading admin UI: ' + err.message);
+            });
+        })();
+    </script>
     <script>
         // Set canonical and Open Graph URL dynamically (removes query and hash)
         (function(){

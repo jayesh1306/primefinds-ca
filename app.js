@@ -87,11 +87,13 @@ function showSuccessMessage(message) {
 }
 
 function checkRoute() {
-    // Use query param ?admin=1 or ?admin=true to open admin without hash
+    // If ?admin=1 is present, we do not toggle the (removed) admin panel here.
+    // The embedded admin loader in index.html will handle authentication and injection.
     const params = new URLSearchParams(window.location.search);
     const isAdmin = params.get('admin') === '1' || params.get('admin') === 'true';
     if (isAdmin) {
-        showAdminPanel();
+        // keep the public site visible; embedded admin will be injected after auth
+        return;
     } else {
         showPublicSite();
     }
