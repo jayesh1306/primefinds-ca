@@ -1,4 +1,5 @@
 /* Admin-only script: manages products.json locally. */
+(function(){
 let products = [];
 let editingProductId = null;
 
@@ -275,3 +276,5 @@ if (document.readyState === 'loading') {
     // If admin.js is loaded after injection, run init immediately
     try { initAdmin(); } catch (e) { console.warn('admin init failed', e); }
 }
+
+})();
