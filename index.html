@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PrimeFinds Canada - Your Amazon Finds</title>
+    <title>Amazon Affiliate Product Store</title>
     <style>
         * {
             margin: 0;
@@ -13,189 +13,142 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-color: #f5f5f5;
             color: #333;
-            overflow-x: hidden;
         }
 
-        .public-site {
-            display: block;
-        }
-
-        .admin-panel {
-            display: none;
-        }
-
+        /* Header */
         header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1.5rem 2rem;
+            background-color: #232f3e;
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            animation: slideDown 0.5s ease;
         }
 
-        @keyframes slideDown {
-            from { transform: translateY(-100%); }
-            to { transform: translateY(0); }
-        }
-
-        nav {
+        .header-container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .logo {
-            font-size: 1.8rem;
+            font-size: 24px;
             font-weight: bold;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #ff9900;
         }
 
-        .nav-links {
+        .nav-buttons {
             display: flex;
-            gap: 2rem;
-            list-style: none;
-            align-items: center;
+            gap: 15px;
         }
 
-        .nav-links a {
-            color: #333;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s;
-            position: relative;
-        }
-
-        .nav-links a:hover {
-            color: #667eea;
-        }
-
-        .hero {
-            max-width: 1200px;
-            margin: 4rem auto;
-            padding: 4rem 2rem;
-            text-align: center;
-            color: white;
-            animation: fadeIn 1s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        .cta-btn {
-            background: white;
-            color: #667eea;
-            padding: 1rem 2.5rem;
+        button {
+            padding: 10px 20px;
             border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: bold;
+            border-radius: 4px;
             cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            font-size: 14px;
+            transition: all 0.3s ease;
         }
 
-        .cta-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        .btn-primary {
+            background-color: #ff9900;
+            color: white;
+            font-weight: bold;
         }
 
-        .products {
+        .btn-primary:hover {
+            background-color: #ff7700;
+        }
+
+        .btn-secondary {
+            background-color: #555;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #777;
+        }
+
+        .btn-danger {
+            background-color: #cc0000;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #990000;
+        }
+
+        /* Main Container */
+        .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 4rem 2rem;
-            background: white;
-            border-radius: 30px 30px 0 0;
+            padding: 20px;
         }
 
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #333;
+        /* Store View */
+        .store-view {
+            display: none;
         }
 
-        .product-grid {
+        .store-view.active {
+            display: block;
+        }
+
+        .search-filter {
+            margin-bottom: 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .search-filter input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
         }
 
         .product-card {
             background: white;
-            border-radius: 20px;
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-            cursor: pointer;
-            position: relative;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
         }
 
         .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
         .product-image {
             width: 100%;
-            height: 250px;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            height: 200px;
+            background-color: #f0f0f0;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 5rem;
-            position: relative;
+            font-size: 12px;
+            color: #999;
             overflow: hidden;
-        }
-
-        /* Carousel controls */
-        .carousel-prev, .carousel-next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0,0,0,0.4);
-            color: white;
-            border: none;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            cursor: pointer;
-            z-index: 2;
-        }
-
-        .carousel-prev { left: 12px; }
-        .carousel-next { right: 12px; }
-
-        .carousel-emoji {
-            font-size: 5rem;
-            display: inline-block;
-            line-height: 1;
         }
 
         .product-image img {
@@ -204,314 +157,204 @@
             object-fit: cover;
         }
 
-        .badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #ff6b6b;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            z-index: 2;
-        }
-
         .product-info {
-            padding: 1.5rem;
-        }
-
-        .product-title {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-            color: #333;
-        }
-
-        .product-desc {
-            color: #666;
-            margin-bottom: 1rem;
-            line-height: 1.6;
-        }
-
-        .product-footer {
+            padding: 15px;
+            flex-grow: 1;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
         }
 
-        .price {
-            font-size: 1.5rem;
+        .product-name {
+            font-size: 16px;
             font-weight: bold;
-            color: #667eea;
+            margin-bottom: 8px;
+            color: #0066cc;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ff9900;
+            margin-bottom: 8px;
+        }
+
+        .product-description {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 12px;
+            flex-grow: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .product-asin {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 12px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 8px;
         }
 
         .buy-btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            flex: 1;
+            padding: 10px;
+            background-color: #ff9900;
             color: white;
-            padding: 0.75rem 1.5rem;
             border: none;
-            border-radius: 25px;
-            font-weight: bold;
+            border-radius: 4px;
             cursor: pointer;
-            transition: all 0.3s;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s;
         }
 
         .buy-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            background-color: #ff7700;
         }
 
-        .features {
-            max-width: 1200px;
-            margin: 4rem auto;
-            padding: 0 2rem 4rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature {
-            text-align: center;
-            padding: 2rem;
-            background: rgba(255,255,255,0.05);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
+        .edit-btn {
+            padding: 10px 15px;
+            background-color: #0066cc;
             color: white;
-            transition: all 0.3s;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
         }
 
-        .feature:hover {
-            background: rgba(255,255,255,0.1);
-            transform: translateY(-5px);
+        .edit-btn:hover {
+            background-color: #004499;
         }
 
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+        /* Admin View */
+        .admin-view {
+            display: none;
         }
 
-        footer {
-            background: #2d3748;
-            color: white;
-            text-align: center;
-            padding: 2rem;
+        .admin-view.active {
+            display: block;
         }
 
-        .admin-panel {
-            min-height: 100vh;
-            background: #f5f7fa;
-        }
-
-        .admin-header {
+        .admin-form {
             background: white;
-            padding: 1.5rem 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #ff9900;
+            box-shadow: 0 0 5px rgba(255, 153, 0, 0.3);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .form-actions button {
+            flex: 1;
+        }
+
+        /* Products List in Admin */
+        .admin-products {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .admin-product-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .admin-title {
-            font-size: 1.8rem;
-            color: #333;
+        .admin-product-item:last-child {
+            border-bottom: none;
+        }
+
+        .admin-product-details {
+            flex: 1;
+        }
+
+        .admin-product-name {
             font-weight: bold;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .export-btn, .import-btn, .back-btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .export-btn {
-            background: #4caf50;
-            color: white;
-        }
-
-        .export-btn:hover {
-            background: #45a049;
-        }
-
-        .import-btn {
-            background: #2196F3;
-            color: white;
-        }
-
-        .import-btn:hover {
-            background: #0b7dda;
-        }
-
-        .back-btn {
-            background: #e0e0e0;
             color: #333;
-        }
-
-        .back-btn:hover {
-            background: #d0d0d0;
-        }
-
-        .admin-container {
-            max-width: 1400px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-        }
-
-        .admin-info-box {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 1.5rem;
-            border-radius: 15px;
-            margin-bottom: 2rem;
-        }
-
-        .admin-info-box h3 {
-            margin-bottom: 0.5rem;
-            font-size: 1.2rem;
-        }
-
-        .admin-info-box p {
-            opacity: 0.9;
-            line-height: 1.6;
-        }
-
-        .admin-info-box ol {
-            margin: 1rem 0 0 1.5rem;
-            line-height: 1.8;
-        }
-
-        .add-new-btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 25px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-bottom: 2rem;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .add-new-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        .admin-product-grid {
-            display: grid;
-            gap: 1.5rem;
-        }
-
-        .admin-product-card {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            display: grid;
-            grid-template-columns: 100px 1fr auto;
-            gap: 1.5rem;
-            align-items: center;
-            transition: all 0.3s;
-        }
-
-        .admin-product-card:hover {
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-        }
-
-        .admin-product-image {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            overflow: hidden;
-        }
-
-        .admin-product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .admin-product-info h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-            color: #333;
-        }
-
-        .admin-product-info p {
-            color: #666;
-            margin-bottom: 0.5rem;
+            margin-bottom: 5px;
         }
 
         .admin-product-meta {
-            display: flex;
-            gap: 1rem;
-            font-size: 0.9rem;
+            font-size: 12px;
             color: #999;
         }
 
-        .admin-actions {
+        .admin-product-actions {
             display: flex;
-            gap: 0.5rem;
+            gap: 8px;
         }
 
-        .edit-btn, .delete-btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
+        .admin-product-actions button {
+            padding: 8px 12px;
+            font-size: 12px;
         }
 
-        .edit-btn {
-            background: #4caf50;
-            color: white;
-        }
-
-        .edit-btn:hover {
-            background: #45a049;
-        }
-
-        .delete-btn {
-            background: #f44336;
-            color: white;
-        }
-
-        .delete-btn:hover {
-            background: #da190b;
-        }
-
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
             z-index: 1000;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
         }
 
         .modal.active {
@@ -520,779 +363,441 @@
 
         .modal-content {
             background: white;
-            padding: 2rem;
-            border-radius: 20px;
+            padding: 30px;
+            border-radius: 8px;
             max-width: 600px;
             width: 90%;
-            max-height: 90vh;
+            max-height: 80vh;
             overflow-y: auto;
-            animation: slideUp 0.3s ease;
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
         }
 
         .modal-header {
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
         }
 
         .modal-header h2 {
-            color: #333;
+            margin: 0;
         }
 
         .close-btn {
             background: none;
             border: none;
-            font-size: 2rem;
+            font-size: 24px;
             cursor: pointer;
-            color: #666;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #333;
-            font-weight: 500;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-family: inherit;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: flex-end;
-            margin-top: 2rem;
-        }
-
-        .btn-primary, .btn-secondary {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 25px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
-
-        .btn-secondary {
-            background: #e0e0e0;
-            color: #333;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 4rem 2rem;
             color: #999;
         }
 
-        .empty-state-icon {
-            font-size: 5rem;
-            margin-bottom: 1rem;
+        .close-btn:hover {
+            color: #333;
         }
 
-        #fileInput {
-            display: none;
-        }
-
-        .success-message {
-            background: #4caf50;
-            color: white;
-            padding: 1rem;
-            border-radius: 10px;
-            margin-bottom: 1rem;
+        /* Empty State */
+        .empty-state {
             text-align: center;
-            animation: slideDown 0.3s ease;
+            padding: 60px 20px;
+            color: #999;
         }
 
+        .empty-state h3 {
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .nav-links {
-                gap: 1rem;
-            }
-
-            .admin-product-card {
-                grid-template-columns: 1fr;
-            }
-
-            .admin-product-image {
-                width: 100%;
-                height: 150px;
-            }
-
-            .header-actions {
+            .header-container {
                 flex-direction: column;
-                gap: 0.5rem;
+                gap: 15px;
             }
+
+            .nav-buttons {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .nav-buttons button {
+                width: 100%;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            .search-filter {
+                flex-direction: column;
+            }
+        }
+
+        /* Affiliate Disclosure */
+        .affiliate-disclosure {
+            background-color: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 12px;
+            color: #856404;
         }
     </style>
 </head>
 <body>
-    <!-- Public Website -->
-    <div class="public-site" id="publicSite">
-        <header>
-            <nav>
-                <div class="logo">PrimeFinds Canada</div>
-                <ul class="nav-links">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#products">Products</a></li>
-                    <li><a href="#deals">Deals</a></li>
-                    <li><a href="#about">About</a></li>
-                </ul>
-            </nav>
-        </header>
-
-        <section class="hero">
-            <h1>Discover Amazing Products</h1>
-            <p>Handpicked selections just for you. Quality products at unbeatable prices.</p>
-            <button class="cta-btn" onclick="document.querySelector('.products').scrollIntoView({behavior: 'smooth'})">Shop Now</button>
-        </section>
-
-        <section class="products" id="products">
-            <h2 class="section-title">Featured Products</h2>
-            <div class="product-grid" id="productGrid"></div>
-        </section>
-
-        <section class="features">
-            <div class="feature">
-                <div class="feature-icon">🚚</div>
-                <h3>Fast Shipping</h3>
-                <p>Quick delivery with Amazon Prime</p>
+    <header>
+        <div class="header-container">
+            <div class="logo">🛍️ Affiliate Store</div>
+            <div class="nav-buttons">
+                <button class="btn-secondary view-toggle" data-view="store">Store</button>
+                <button class="btn-primary view-toggle" data-view="admin">Admin Panel</button>
             </div>
-            <div class="feature">
-                <div class="feature-icon">⭐</div>
-                <h3>Top Rated</h3>
-                <p>Only the best reviewed products</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">💰</div>
-                <h3>Best Prices</h3>
-                <p>Great deals on quality items</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">🔒</div>
-                <h3>Secure Shopping</h3>
-                <p>Safe checkout with Amazon</p>
-            </div>
-        </section>
+        </div>
+    </header>
 
-        <footer>
-            <p>&copy; 2026 PrimeFinds Canada. As an Amazon Associate, we earn from qualifying purchases.</p>
-            <p style="margin-top: 1rem; opacity: 0.7;">Disclaimer: Prices and availability subject to change.</p>
-        </footer>
-    </div>
+    <div class="container">
+        <!-- Affiliate Disclosure -->
+        <div class="affiliate-disclosure">
+            ⚡ <strong>Disclosure:</strong> As an Amazon Associate, I earn from qualifying purchases. Links help support this site at no extra cost to you.
+        </div>
 
-    <!-- Admin Panel -->
-    <div class="admin-panel" id="adminPanel">
-        <div class="admin-header">
-            <h1 class="admin-title">🔐 PrimeFinds Canada - Admin Dashboard</h1>
-            <div class="header-actions">
-                <button class="export-btn" onclick="exportProducts()">📥 Export JSON</button>
-                <button class="import-btn" onclick="document.getElementById('fileInput').click()">📤 Import JSON</button>
-                <button class="back-btn" onclick="goToPublicSite()">← Back to Site</button>
+        <!-- Store View -->
+        <div class="store-view active">
+            <h1 style="margin-bottom: 20px;">Featured Products</h1>
+            
+            <div class="search-filter">
+                <input type="text" id="searchInput" placeholder="Search products...">
+            </div>
+
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be populated here -->
+            </div>
+
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <h3>No products found</h3>
+                <p>Add products from the admin panel to get started!</p>
             </div>
         </div>
 
-        <div class="admin-container">
-            <div class="admin-info-box">
-                <h3>📋 How to Update Your Website:</h3>
-                <ol>
-                    <li><strong>Manage Products:</strong> Add/edit/delete products here (saved in your browser)</li>
-                    <li><strong>Export JSON:</strong> Click "Export JSON" to download products.json file</li>
-                    <li><strong>Upload to Server:</strong> Upload products.json to your web server (same folder as index.html)</li>
-                    <li><strong>Done!</strong> Your website will automatically load products from the JSON file</li>
-                </ol>
-                <p style="margin-top: 1rem;"><strong>💡 Tip:</strong> After uploading products.json, all visitors will see your latest products!</p>
-            </div>
+        <!-- Admin View -->
+        <div class="admin-view">
+            <h1 style="margin-bottom: 20px;">Admin Panel</h1>
 
-            <!-- GitHub Upload Box -->
-            <div class="admin-info-box" style="margin-top:1rem;">
-                <h3>🔁 Upload products.json to GitHub</h3>
-                <p style="opacity:0.95;">Use this to push the current products (saved locally) to a GitHub repository. You will need a Personal Access Token (repo scope). Tokens are not stored permanently — use with caution.</p>
-
+            <div class="admin-form">
+                <h2 style="margin-bottom: 20px;">Add New Product</h2>
+                
                 <div class="form-group">
-                    <label>Repository (owner/repo)</label>
-                    <input type="text" id="ghRepo" placeholder="owner/repo">
+                    <label for="productName">Product Name *</label>
+                    <input type="text" id="productName" placeholder="e.g., Sony WH-1000XM5 Headphones" required>
                 </div>
 
                 <div class="form-group">
-                    <label>File path (in repo)</label>
-                    <input type="text" id="ghPath" value="products.json">
+                    <label for="productASIN">Amazon ASIN *</label>
+                    <input type="text" id="productASIN" placeholder="e.g., B0BWKZX8SS" required>
                 </div>
 
                 <div class="form-group">
-                    <label>Branch</label>
-                    <input type="text" id="ghBranch" value="main">
+                    <label for="productPrice">Price *</label>
+                    <input type="text" id="productPrice" placeholder="e.g., $299.99" required>
                 </div>
 
                 <div class="form-group">
-                    <label>Personal Access Token (PAT)</label>
-                    <input type="password" id="ghToken" placeholder="ghp_..." autocomplete="new-password">
+                    <label for="productImage">Image URL</label>
+                    <input type="text" id="productImage" placeholder="https://example.com/image.jpg">
+                </div>
+
+                <div class="form-group">
+                    <label for="productDescription">Description</label>
+                    <textarea id="productDescription" placeholder="Brief product description..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="productCategory">Category</label>
+                    <input type="text" id="productCategory" placeholder="e.g., Electronics, Home, Sports">
                 </div>
 
                 <div class="form-actions">
-                    <button class="btn-primary" onclick="uploadToGithub()">Push to GitHub</button>
+                    <button class="btn-primary" id="addProductBtn">Add Product</button>
+                    <button class="btn-secondary" id="clearFormBtn">Clear</button>
                 </div>
-
-                <div id="ghMessage" style="margin-top:0.75rem;"></div>
             </div>
 
-            <div id="successMessage"></div>
-
-            <button class="add-new-btn" onclick="openAddModal()">
-                <span>+</span> Add New Product
-            </button>
-
-            <div class="admin-product-grid" id="adminProductGrid"></div>
+            <h2 style="margin-bottom: 20px;">Manage Products</h2>
+            <div class="admin-products" id="adminProductsList">
+                <!-- Admin product list will be populated here -->
+            </div>
         </div>
     </div>
 
-    <input type="file" id="fileInput" accept=".json" onchange="importProducts(event)">
-
-    <!-- Product Modal -->
-    <div class="modal" id="productModal">
+    <!-- Modal for editing -->
+    <div class="modal" id="editModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="modalTitle">Add New Product</h2>
-                <button class="close-btn" onclick="closeModal()">&times;</button>
+                <h2>Edit Product</h2>
+                <button class="close-btn" id="closeModalBtn">&times;</button>
             </div>
-            <form id="productForm">
-                <div class="form-group">
-                    <label>Product Title *</label>
-                    <input type="text" id="productTitle" required>
-                </div>
-                <div class="form-group">
-                    <label>Description *</label>
-                    <textarea id="productDesc" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Price *</label>
-                    <input type="text" id="productPrice" placeholder="$99.99" required>
-                </div>
-                <div class="form-group">
-                    <label>Image URLs (comma separated) or single Emoji/URL</label>
-                    <textarea id="productImage" placeholder="🎧 or https://example.com/img1.jpg, https://example.com/img2.jpg"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Badge (optional)</label>
-                    <input type="text" id="productBadge" placeholder="Best Seller, New, Hot Deal, etc.">
-                </div>
-                <div class="form-group">
-                    <label>Amazon Affiliate Link *</label>
-                    <input type="url" id="productLink" placeholder="https://amazon.com/..." required>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
-                    <button type="submit" class="btn-primary">Save Product</button>
-                </div>
-            </form>
+            
+            <div class="form-group">
+                <label for="editProductName">Product Name *</label>
+                <input type="text" id="editProductName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="editProductASIN">Amazon ASIN *</label>
+                <input type="text" id="editProductASIN" required>
+            </div>
+
+            <div class="form-group">
+                <label for="editProductPrice">Price *</label>
+                <input type="text" id="editProductPrice" required>
+            </div>
+
+            <div class="form-group">
+                <label for="editProductImage">Image URL</label>
+                <input type="text" id="editProductImage">
+            </div>
+
+            <div class="form-group">
+                <label for="editProductDescription">Description</label>
+                <textarea id="editProductDescription"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="editProductCategory">Category</label>
+                <input type="text" id="editProductCategory">
+            </div>
+
+            <div class="form-actions">
+                <button class="btn-primary" id="saveEditBtn">Save Changes</button>
+                <button class="btn-secondary" id="cancelEditBtn">Cancel</button>
+            </div>
         </div>
     </div>
 
     <script>
-        let products = [];
-        let editingProductId = null;
+        // App State
+        const app = {
+            products: [],
+            affiliateId: 'YOUR_AMAZON_AFFILIATE_ID', // Change this to your tracking ID
+            currentEditId: null,
 
-        // ----------
-        // GitHub defaults
-        // Edit these values directly in the code. You can paste your PAT here.
-        // WARNING: Storing a PAT in client-side code is insecure. Only do this for testing.
-        const GITHUB_DEFAULT = {
-            token: '', // <-- paste your PAT here (e.g. 'ghp_...')
-            repo: '',  // <-- e.g. 'owner/repo' (optional: if set, export will push here)
-            path: 'products.json',
-            branch: 'main'
-        };
-
-        const sampleProducts = [
-            {
-                id: Date.now() + 1,
-                title: 'Premium Wireless Headphones',
-                description: 'Crystal clear sound with active noise cancellation. 30-hour battery life.',
-                price: '$89.99',
-                images: ['https://m.media-amazon.com/images/I/71girJD2oyL._AC_SL1500_.jpg', 'https://m.media-amazon.com/images/I/71b6O0R0esL._AC_SL1500_.jpg'],
-                badge: 'Best Seller',
-                link: 'https://amazon.com'
+            init() {
+                this.loadProducts();
+                this.setupEventListeners();
+                this.renderStore();
+                this.renderAdminList();
             },
-            {
-                id: Date.now() + 2,
-                title: 'Laptop Stand Pro',
-                description: 'Ergonomic aluminum stand for better posture and cooling.',
-                price: '$49.99',
-                images: ['💻'],
-                badge: 'New',
-                link: 'https://amazon.com'
-            },
-            {
-                id: Date.now() + 3,
-                title: 'Smart Fitness Watch',
-                description: 'Track your health, workouts, and stay connected on the go.',
-                price: '$129.99',
-                images: ['⌚'],
-                badge: 'Trending',
-                link: 'https://amazon.com'
-            }
-        ];
 
-        async function loadProducts() {
-            try {
-                const response = await fetch('products.json');
-                if (response.ok) {
-                    const data = await response.json();
-                    // Accept either { products: [...] } or a top-level array
-                    if (Array.isArray(data)) {
-                        products = data;
-                    } else {
-                        products = data.products || [];
-                    }
-                    console.log('✅ Products loaded from products.json');
-                    renderProducts();
-                    renderAdminProducts();
+            loadProducts() {
+                const saved = localStorage.getItem('affiliateProducts');
+                this.products = saved ? JSON.parse(saved) : [];
+            },
+
+            saveProducts() {
+                localStorage.setItem('affiliateProducts', JSON.stringify(this.products));
+            },
+
+            addProduct(product) {
+                product.id = Date.now();
+                this.products.unshift(product);
+                this.saveProducts();
+            },
+
+            updateProduct(id, product) {
+                const index = this.products.findIndex(p => p.id === id);
+                if (index !== -1) {
+                    this.products[index] = { ...this.products[index], ...product };
+                    this.saveProducts();
+                }
+            },
+
+            deleteProduct(id) {
+                this.products = this.products.filter(p => p.id !== id);
+                this.saveProducts();
+            },
+
+            getAmazonLink(asin) {
+                return `https://amazon.com/dp/${asin}?tag=${this.affiliateId}`;
+            },
+
+            setupEventListeners() {
+                // View toggle
+                document.querySelectorAll('.view-toggle').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const view = e.target.dataset.view;
+                        this.switchView(view);
+                    });
+                });
+
+                // Admin form
+                document.getElementById('addProductBtn').addEventListener('click', () => {
+                    this.handleAddProduct();
+                });
+
+                document.getElementById('clearFormBtn').addEventListener('click', () => {
+                    this.clearForm();
+                });
+
+                // Search
+                document.getElementById('searchInput').addEventListener('input', (e) => {
+                    this.renderStore(e.target.value);
+                });
+
+                // Modal
+                document.getElementById('closeModalBtn').addEventListener('click', () => {
+                    this.closeModal();
+                });
+
+                document.getElementById('cancelEditBtn').addEventListener('click', () => {
+                    this.closeModal();
+                });
+
+                document.getElementById('saveEditBtn').addEventListener('click', () => {
+                    this.handleSaveEdit();
+                });
+            },
+
+            switchView(view) {
+                document.querySelectorAll('[class$="-view"]').forEach(el => {
+                    el.classList.remove('active');
+                });
+                document.querySelector(`.${view}-view`).classList.add('active');
+            },
+
+            handleAddProduct() {
+                const name = document.getElementById('productName').value.trim();
+                const asin = document.getElementById('productASIN').value.trim();
+                const price = document.getElementById('productPrice').value.trim();
+
+                if (!name || !asin || !price) {
+                    alert('Please fill in all required fields (Name, ASIN, Price)');
                     return;
                 }
-            } catch (error) {
-                console.log('ℹ️ No products.json file found, using localStorage');
-            }
 
-            const saved = localStorage.getItem('products');
-            if (saved) {
-                products = JSON.parse(saved);
-                console.log('✅ Products loaded from localStorage');
-            } else {
-                products = sampleProducts;
-                console.log('✅ Using sample products');
-            }
-
-            renderProducts();
-            renderAdminProducts();
-        }
-
-        function saveProducts() {
-            localStorage.setItem('products', JSON.stringify(products));
-            console.log('✅ Products saved to localStorage');
-        }
-
-        function exportProducts() {
-            // Instead of downloading, push products.json to GitHub using configured defaults.
-            // If you want to use the UI inputs instead, leave GITHUB_DEFAULT.token empty and fill fields in the admin UI.
-            if (GITHUB_DEFAULT.repo && GITHUB_DEFAULT.token) {
-                // populate inputs so uploadToGithub reads them
-                document.getElementById('ghRepo').value = GITHUB_DEFAULT.repo;
-                document.getElementById('ghPath').value = GITHUB_DEFAULT.path || 'products.json';
-                document.getElementById('ghBranch').value = GITHUB_DEFAULT.branch || 'main';
-                document.getElementById('ghToken').value = GITHUB_DEFAULT.token;
-
-                showSuccessMessage('🔁 Pushing products.json to GitHub...');
-                uploadToGithub();
-            } else {
-                // Fallback: if defaults not set, open export download like before
-                const dataStr = JSON.stringify({ products: products }, null, 2);
-                const dataBlob = new Blob([dataStr], { type: 'application/json' });
-                const url = URL.createObjectURL(dataBlob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = 'products.json';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                URL.revokeObjectURL(url);
-                showSuccessMessage('✅ products.json downloaded! Upload it to your web server.');
-            }
-        }
-
-        function importProducts(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    // Accept either { products: [...] } or a top-level array
-                    if (Array.isArray(data)) {
-                        products = data;
-                    } else if (data.products && Array.isArray(data.products)) {
-                        products = data.products;
-                    } else {
-                        alert('Invalid JSON format. Expected: either an array of products or {"products": [...]}');
-                        return;
-                    }
-
-                    saveProducts();
-                    renderAdminProducts();
-                    renderProducts();
-                    showSuccessMessage('✅ Products imported successfully!');
-                } catch (error) {
-                    alert('Error reading JSON file: ' + error.message);
-                }
-            };
-            reader.readAsText(file);
-            event.target.value = '';
-        }
-
-        // -------------------------
-        // GitHub upload helpers
-        // -------------------------
-        async function uploadToGithub() {
-            const repo = document.getElementById('ghRepo').value.trim();
-            const path = document.getElementById('ghPath').value.trim() || 'products.json';
-            const branch = document.getElementById('ghBranch').value.trim() || 'main';
-            const token = document.getElementById('ghToken').value.trim();
-            const msgContainer = document.getElementById('ghMessage');
-            msgContainer.innerHTML = '';
-
-            if (!repo) return showGithubMessage('Please enter the repository in the form owner/repo', true);
-            if (!token) return showGithubMessage('Please provide a Personal Access Token with repo permissions', true);
-
-            const [owner, repoName] = repo.split('/');
-            if (!owner || !repoName) return showGithubMessage('Repository must be in the format owner/repo', true);
-
-            const apiUrl = `https://api.github.com/repos/${owner}/${repoName}/contents/${encodeURIComponent(path)}`;
-
-            // Prepare file content
-            const payloadObj = { products: products };
-            const contentStr = JSON.stringify(payloadObj, null, 2);
-            const encoded = btoa(unescape(encodeURIComponent(contentStr)));
-
-            // Try to get existing file sha (if present) to update instead of create
-            let sha = null;
-            try {
-                const res = await fetch(apiUrl + `?ref=${encodeURIComponent(branch)}`, {
-                    headers: {
-                        'Authorization': 'token ' + token,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
+                this.addProduct({
+                    name,
+                    asin,
+                    price,
+                    image: document.getElementById('productImage').value.trim(),
+                    description: document.getElementById('productDescription').value.trim(),
+                    category: document.getElementById('productCategory').value.trim()
                 });
 
-                if (res.ok) {
-                    const data = await res.json();
-                    sha = data.sha;
-                } else if (res.status === 404) {
-                    sha = null; // file does not exist yet
-                } else if (res.status === 401 || res.status === 403) {
-                    return showGithubMessage('Authentication failed (invalid token or insufficient permissions).', true);
-                } else {
-                    // continue and attempt create
-                    sha = null;
+                this.clearForm();
+                this.renderStore();
+                this.renderAdminList();
+                alert('Product added successfully!');
+            },
+
+            clearForm() {
+                document.getElementById('productName').value = '';
+                document.getElementById('productASIN').value = '';
+                document.getElementById('productPrice').value = '';
+                document.getElementById('productImage').value = '';
+                document.getElementById('productDescription').value = '';
+                document.getElementById('productCategory').value = '';
+            },
+
+            renderStore(search = '') {
+                const grid = document.getElementById('productsGrid');
+                const empty = document.getElementById('emptyState');
+                const filtered = this.products.filter(p => 
+                    p.name.toLowerCase().includes(search.toLowerCase()) ||
+                    p.description.toLowerCase().includes(search.toLowerCase())
+                );
+
+                if (filtered.length === 0) {
+                    grid.innerHTML = '';
+                    empty.style.display = 'block';
+                    return;
                 }
-            } catch (err) {
-                return showGithubMessage('Network error while checking file: ' + err.message, true);
-            }
 
-            const body = {
-                message: sha ? `Update ${path} via Admin UI` : `Create ${path} via Admin UI`,
-                content: encoded,
-                branch: branch
-            };
-            if (sha) body.sha = sha;
+                empty.style.display = 'none';
+                grid.innerHTML = filtered.map(product => `
+                    <div class="product-card">
+                        ${product.image ? `<div class="product-image"><img src="${product.image}" alt="${product.name}"></div>` : '<div class="product-image">No Image</div>'}
+                        <div class="product-info">
+                            <div class="product-name">${product.name}</div>
+                            <div class="product-price">${product.price}</div>
+                            ${product.description ? `<div class="product-description">${product.description}</div>` : ''}
+                            ${product.category ? `<div class="product-asin">Category: ${product.category}</div>` : ''}
+                            <div class="product-actions">
+                                <a href="${this.getAmazonLink(product.asin)}" target="_blank" rel="noopener noreferrer" class="buy-btn">Buy on Amazon</a>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            },
 
-            try {
-                const putRes = await fetch(apiUrl, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': 'token ' + token,
-                        'Accept': 'application/vnd.github.v3+json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(body)
+            renderAdminList() {
+                const list = document.getElementById('adminProductsList');
+                if (this.products.length === 0) {
+                    list.innerHTML = '<div class="empty-state"><p>No products yet. Add one above!</p></div>';
+                    return;
+                }
+
+                list.innerHTML = this.products.map(product => `
+                    <div class="admin-product-item">
+                        <div class="admin-product-details">
+                            <div class="admin-product-name">${product.name}</div>
+                            <div class="admin-product-meta">ASIN: ${product.asin} | Price: ${product.price}</div>
+                        </div>
+                        <div class="admin-product-actions">
+                            <button class="btn-secondary" onclick="app.openEditModal(${product.id})">Edit</button>
+                            <button class="btn-danger" onclick="app.handleDelete(${product.id})">Delete</button>
+                        </div>
+                    </div>
+                `).join('');
+            },
+
+            openEditModal(id) {
+                const product = this.products.find(p => p.id === id);
+                if (!product) return;
+
+                this.currentEditId = id;
+                document.getElementById('editProductName').value = product.name;
+                document.getElementById('editProductASIN').value = product.asin;
+                document.getElementById('editProductPrice').value = product.price;
+                document.getElementById('editProductImage').value = product.image || '';
+                document.getElementById('editProductDescription').value = product.description || '';
+                document.getElementById('editProductCategory').value = product.category || '';
+
+                document.getElementById('editModal').classList.add('active');
+            },
+
+            closeModal() {
+                document.getElementById('editModal').classList.remove('active');
+                this.currentEditId = null;
+            },
+
+            handleSaveEdit() {
+                if (!this.currentEditId) return;
+
+                this.updateProduct(this.currentEditId, {
+                    name: document.getElementById('editProductName').value,
+                    asin: document.getElementById('editProductASIN').value,
+                    price: document.getElementById('editProductPrice').value,
+                    image: document.getElementById('editProductImage').value,
+                    description: document.getElementById('editProductDescription').value,
+                    category: document.getElementById('editProductCategory').value
                 });
 
-                const putData = await putRes.json();
-                if (putRes.ok) {
-                    const commitUrl = putData.commit && putData.commit.html_url ? putData.commit.html_url : '';
-                    showGithubMessage('✅ products.json uploaded to GitHub' + (commitUrl ? ` — <a href="${commitUrl}" target="_blank">view commit</a>` : ''), false);
-                    // clear token field for safety
-                    document.getElementById('ghToken').value = '';
-                } else {
-                    const msg = putData && putData.message ? putData.message : 'Unknown error';
-                    showGithubMessage('Error uploading file: ' + msg, true);
+                this.closeModal();
+                this.renderStore();
+                this.renderAdminList();
+                alert('Product updated successfully!');
+            },
+
+            handleDelete(id) {
+                if (confirm('Are you sure you want to delete this product?')) {
+                    this.deleteProduct(id);
+                    this.renderStore();
+                    this.renderAdminList();
                 }
-            } catch (err) {
-                showGithubMessage('Network error while uploading file: ' + err.message, true);
             }
-        }
+        };
 
-        function showGithubMessage(message, isError = false) {
-            const el = document.getElementById('ghMessage');
-            el.innerHTML = `<div class="success-message" style="background:${isError ? '#f44336' : '#4caf50'}">${message}</div>`;
-            setTimeout(() => { el.innerHTML = ''; }, 8000);
-        }
-
-        function showSuccessMessage(message) {
-            const container = document.getElementById('successMessage');
-            container.innerHTML = `<div class="success-message">${message}</div>`;
-            setTimeout(() => {
-                container.innerHTML = '';
-            }, 5000);
-        }
-
-        function checkRoute() {
-            const hash = window.location.hash;
-            if (hash === '#admin' || hash === '#admin-panel') {
-                showAdminPanel();
-            } else {
-                showPublicSite();
-            }
-        }
-
-        function showAdminPanel() {
-            document.getElementById('publicSite').style.display = 'none';
-            document.getElementById('adminPanel').style.display = 'block';
-            renderAdminProducts();
-        }
-
-        function showPublicSite() {
-            document.getElementById('publicSite').style.display = 'block';
-            document.getElementById('adminPanel').style.display = 'none';
-            renderProducts();
-        }
-
-        function goToPublicSite() {
-            window.location.hash = '';
-            showPublicSite();
-        }
-
-        function renderProducts() {
-            const grid = document.getElementById('productGrid');
-            grid.innerHTML = '';
-
-            if (products.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">📦</div>
-                        <h3>No products yet</h3>
-                        <p>Products will appear here once added</p>
-                    </div>
-                `;
-                return;
-            }
-
-            products.forEach(product => {
-                const card = document.createElement('div');
-                card.className = 'product-card';
-
-                const images = Array.isArray(product.images) ? product.images : (product.image ? [product.image] : []);
-
-                let imageHtml = '';
-
-                if (images.length > 1) {
-                    const first = images[0];
-                    const firstIsUrl = first && first.toString().startsWith('http');
-                    const firstContent = firstIsUrl ? `<img src="${first}" alt="${product.title}" class="carousel-img">` : `<span class="carousel-emoji">${first}</span>`;
-
-                    imageHtml = `
-                        <div class="product-image">
-                            <div class="carousel-display">${firstContent}</div>
-                            <button class="carousel-prev" aria-label="Previous">‹</button>
-                            <button class="carousel-next" aria-label="Next">›</button>
-                            ${product.badge ? `<span class="badge">${product.badge}</span>` : ''}
-                        </div>
-                    `;
-                } else {
-                    const img = images[0];
-                    if (img && img.toString().startsWith && img.toString().startsWith('http')) {
-                        imageHtml = `<div class="product-image"><img src="${img}" alt="${product.title}">${product.badge ? `<span class="badge">${product.badge}</span>` : ''}</div>`;
-                    } else {
-                        imageHtml = `<div class="product-image">${img || '📦'}${product.badge ? `<span class="badge">${product.badge}</span>` : ''}</div>`;
-                    }
-                }
-
-                card.innerHTML = `
-                    ${imageHtml}
-                    <div class="product-info">
-                        <h3 class="product-title">${product.title}</h3>
-                        <p class="product-desc">${product.description}</p>
-                        <div class="product-footer">
-                            <span class="price">${product.price || ''}</span>
-                            <button class="buy-btn" onclick="window.open('${product.link}', '_blank')">View on Amazon</button>
-                        </div>
-                    </div>
-                `;
-
-                grid.appendChild(card);
-
-                // Initialize carousel behavior when multiple images are present
-                if (images.length > 1) {
-                    let idx = 0;
-                    const display = card.querySelector('.carousel-display');
-                    const prev = card.querySelector('.carousel-prev');
-                    const next = card.querySelector('.carousel-next');
-
-                    const update = () => {
-                        const v = images[idx];
-                        if (v && v.toString().startsWith && v.toString().startsWith('http')) {
-                            display.innerHTML = `<img class="carousel-img" src="${v}" alt="${product.title}">`;
-                        } else {
-                            display.innerHTML = `<span class="carousel-emoji">${v}</span>`;
-                        }
-                    };
-
-                    prev.addEventListener('click', function(e) { e.stopPropagation(); idx = (idx - 1 + images.length) % images.length; update(); });
-                    next.addEventListener('click', function(e) { e.stopPropagation(); idx = (idx + 1) % images.length; update(); });
-                }
-            });
-        }
-
-        function renderAdminProducts() {
-            const grid = document.getElementById('adminProductGrid');
-            grid.innerHTML = '';
-
-            if (products.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">📦</div>
-                        <h3>No products yet</h3>
-                        <p>Click "Add New Product" to get started</p>
-                    </div>
-                `;
-                return;
-            }
-
-            products.forEach(product => {
-                const card = document.createElement('div');
-                card.className = 'admin-product-card';
-
-                const images = Array.isArray(product.images) ? product.images : (product.image ? [product.image] : []);
-                const thumb = images[0];
-                const thumbIsUrl = thumb && thumb.toString().startsWith('http');
-                const imageContent = thumbIsUrl ? `<img src="${thumb}" alt="${product.title}">` : (thumb || '📦');
-
-                card.innerHTML = `
-                    <div class="admin-product-image">
-                        ${imageContent}
-                    </div>
-                    <div class="admin-product-info">
-                        <h3>${product.title}</h3>
-                        <p>${product.description}</p>
-                        <div class="admin-product-meta">
-                            <span>💰 ${product.price || ''}</span>
-                            ${product.badge ? `<span>🏷️ ${product.badge}</span>` : ''}
-                        </div>
-                    </div>
-                    <div class="admin-actions">
-                        <button class="edit-btn" onclick="editProduct(${product.id})">Edit</button>
-                        <button class="delete-btn" onclick="deleteProduct(${product.id})">Delete</button>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        function openAddModal() {
-            editingProductId = null;
-            document.getElementById('modalTitle').textContent = 'Add New Product';
-            document.getElementById('productForm').reset();
-            document.getElementById('productModal').classList.add('active');
-        }
-
-        function editProduct(id) {
-            const product = products.find(p => p.id === id);
-            if (!product) return;
-
-            editingProductId = id;
-            document.getElementById('modalTitle').textContent = 'Edit Product';
-            document.getElementById('productTitle').value = product.title;
-            document.getElementById('productDesc').value = product.description;
-            document.getElementById('productPrice').value = product.price;
-            // Populate the images textarea (comma separated)
-            const imgs = Array.isArray(product.images) ? product.images : (product.image ? [product.image] : []);
-            document.getElementById('productImage').value = imgs.join(', ');
-            document.getElementById('productBadge').value = product.badge || '';
-            document.getElementById('productLink').value = product.link;
-            
-            document.getElementById('productModal').classList.add('active');
-        }
-
-        function deleteProduct(id) {
-            if (confirm('Are you sure you want to delete this product?')) {
-                products = products.filter(p => p.id !== id);
-                saveProducts();
-                renderAdminProducts();
-                renderProducts();
-                showSuccessMessage('✅ Product deleted successfully!');
-            }
-        }
-
-        function closeModal() {
-            document.getElementById('productModal').classList.remove('active');
-            editingProductId = null;
-        }
-
-        document.getElementById('productForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const rawImages = document.getElementById('productImage').value || '';
-            // Parse comma-separated images, trim and filter empty entries
-            const images = rawImages.split(',').map(s => s.trim()).filter(Boolean);
-
-            const productData = {
-                title: document.getElementById('productTitle').value,
-                description: document.getElementById('productDesc').value,
-                price: document.getElementById('productPrice').value,
-                images: images.length ? images : ['📦'],
-                badge: document.getElementById('productBadge').value,
-                link: document.getElementById('productLink').value
-            };
-
-            if (editingProductId) {
-                const index = products.findIndex(p => p.id === editingProductId);
-                products[index] = { ...products[index], ...productData };
-                showSuccessMessage('✅ Product updated successfully!');
-            } else {
-                productData.id = Date.now();
-                products.push(productData);
-                showSuccessMessage('✅ Product added successfully!');
-            }
-
-            saveProducts();
-            renderAdminProducts();
-            renderProducts();
-            closeModal();
-        });
-
-        document.getElementById('productModal').addEventListener('click', function(e) {
-            if (e.target === this) closeModal();
-        });
-
-        window.addEventListener('hashchange', checkRoute);
-
-        loadProducts();
-        checkRoute();
+        // Initialize app
+        app.init();
     </script>
 </body>
 </html>
