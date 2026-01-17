@@ -4,6 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PrimeFinds Canada - Your Amazon Finds</title>
+    <meta name="description" content="PrimeFinds Canada curates top Amazon finds for Canadian shoppers — handpicked deals, fast shipping with Prime, and honest product picks. Browse featured items and best prices.">
+    <meta name="robots" content="index, follow">
+    <link rel="alternate" hreflang="en-CA" href="/">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PrimeFinds Canada - Your Amazon Finds">
+    <meta property="og:description" content="Handpicked Amazon finds for Canadian shoppers — curated deals, trusted reviews, and fast Prime shipping.">
+    <meta property="og:url" content="">
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PrimeFinds Canada - Your Amazon Finds">
+    <meta name="twitter:description" content="Handpicked Amazon finds for Canadian shoppers — curated deals, trusted reviews, and fast Prime shipping.">
+    <meta name="theme-color" content="#ffffff">
+    <!-- canonical will be set dynamically to the current page URL -->
+    <link rel="canonical" href="">
+    <!-- JSON-LD structured data will be injected dynamically to use the current origin -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -11,7 +27,7 @@
     <div class="public-site" id="publicSite">
         <header>
             <nav>
-                <div class="logo">PrimeFinds Canada</div>
+                <a class="logo" href="/" aria-label="PrimeFinds Canada homepage">PrimeFinds Canada</a>
                 <ul class="nav-links">
                     <li><a href="#home">Home</a></li>
                     <li><a href="#products">Products</a></li>
@@ -64,7 +80,7 @@
     <!-- Admin Panel -->
     <div class="admin-panel" id="adminPanel">
         <div class="admin-header">
-            <h1 class="admin-title">🔐 PrimeFinds Canada - Admin Dashboard</h1>
+            <h2 class="admin-title">🔐 PrimeFinds Canada - Admin Dashboard</h2>
             <div class="header-actions">
                 <button class="export-btn" onclick="exportProducts()">📥 Export JSON</button>
                 <button class="import-btn" onclick="document.getElementById('fileInput').click()">📤 Import JSON</button>
@@ -141,6 +157,47 @@
             </form>
         </div>
     </div>
+    <script>
+        // Set canonical and Open Graph URL dynamically (removes query and hash)
+        (function(){
+            try {
+                var loc = window.location.protocol + '//' + window.location.host + window.location.pathname;
+                // set canonical link
+                var canonical = document.querySelector('link[rel="canonical"]');
+                if (canonical) canonical.href = loc;
+                // set og:url
+                var ogUrl = document.querySelector('meta[property="og:url"]');
+                if (ogUrl) ogUrl.content = loc;
+
+                // Inject JSON-LD for Organization and WebSite using current origin
+                var origin = window.location.protocol + '//' + window.location.host;
+                var jsonLd = {
+                    "@context": "https://schema.org",
+                    "@graph": [
+                        {
+                            "@type": "Organization",
+                            "name": "PrimeFinds Canada",
+                            "url": origin,
+                            "sameAs": []
+                        },
+                        {
+                            "@type": "WebSite",
+                            "url": origin,
+                            "name": "PrimeFinds Canada",
+                            "publisher": {"@type": "Organization", "name": "PrimeFinds Canada"}
+                        }
+                    ]
+                };
+                var script = document.createElement('script');
+                script.type = 'application/ld+json';
+                script.text = JSON.stringify(jsonLd);
+                document.head.appendChild(script);
+            } catch (e) {
+                // fail silently
+                console.warn('SEO script error', e);
+            }
+        })();
+    </script>
     <script src="app.js" defer></script>
 </body>
 </html>
