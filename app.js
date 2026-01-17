@@ -287,18 +287,19 @@ function toggleVisibility(id) {
 // requests to /products.json (and proper CORS/permissions). If you're hosting on static
 // file hosts (GitHub Pages), this will fail — use Export JSON to download and upload manually.
 async function saveToServer() {
+    // New flow: call Netlify function to commit to GitHub. This avoids direct PUT to static file.
     try {
-        const res = await fetch('products.json', {
-            method: 'PUT',
+        const res = await fetch('/.netlify/functions/saveProducts', {
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ products: products }, null, 2)
         });
 
+        const text = await res.text();
         if (res.ok) {
-            showSuccessMessage('✅ products.json saved on server (server accepted PUT)');
+            showSuccessMessage('✅ products.json saved to repository (via function)');
         } else {
-            const text = await res.text().catch(() => '');
-            showSuccessMessage('⚠️ Failed to save to server: ' + (res.status + ' ' + res.statusText + ' ' + text));
+            showSuccessMessage('⚠️ Save to server failed: ' + res.status + ' ' + res.statusText + ' - ' + text);
         }
     } catch (err) {
         showSuccessMessage('⚠️ Save to server failed: ' + err.message + '. Use Export JSON to download and upload manually.');
