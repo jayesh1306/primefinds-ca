@@ -3,326 +3,441 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PrimeFindsCanada - Premium Products</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            color: white;
-            margin-bottom: 50px;
-        }
-
-        header h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        header p {
-            font-size: 1.2em;
-            opacity: 0.9;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-        }
-
-        .product-card {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-        }
-
-        .carousel {
-            position: relative;
-            width: 100%;
-            height: 300px;
-            overflow: hidden;
-            background: #f0f0f0;
-        }
-
-        .carousel-inner {
-            display: flex;
-            transition: transform 0.5s ease;
-            height: 100%;
-        }
-
-        .carousel-slide {
-            min-width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .carousel-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .carousel-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255,255,255,0.9);
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.3s ease;
-            z-index: 10;
-        }
-
-        .carousel-btn:hover {
-            background: white;
-        }
-
-        .carousel-btn.prev {
-            left: 10px;
-        }
-
-        .carousel-btn.next {
-            right: 10px;
-        }
-
-        .carousel-dots {
-            position: absolute;
-            bottom: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 8px;
-            z-index: 10;
-        }
-
-        .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.5);
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .dot.active {
-            background: white;
-        }
-
-        .product-info {
-            padding: 25px;
-        }
-
-        .product-title {
-            font-size: 1.5em;
-            color: #333;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        .product-description {
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .amazon-btn {
-            display: inline-block;
-            background: linear-gradient(135deg, #ff9a56 0%, #ff6a00 100%);
-            color: white;
-            padding: 12px 30px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 106, 0, 0.3);
-        }
-
-        .amazon-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(255, 106, 0, 0.4);
-        }
-
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2em;
-            }
-
-            .products-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <title>PrimeFinds Canada - Your Amazon Finds</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
+    <!-- Public Website -->
+    <div class="public-site" id="publicSite">
         <header>
-            <h1>🍁 PrimeFindsCanada</h1>
-            <p>Discover amazing products handpicked just for you</p>
+            <nav>
+                <div class="logo">PrimeFinds Canada</div>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="#deals">Deals</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </nav>
         </header>
 
-        <div class="products-grid" id="productsGrid"></div>
+        <section class="hero">
+            <h1>Discover Amazing Products</h1>
+            <p>Handpicked selections just for you. Quality products at unbeatable prices.</p>
+            <button class="cta-btn" onclick="document.querySelector('.products').scrollIntoView({behavior: 'smooth'})">Shop Now</button>
+        </section>
+
+        <section class="products" id="products">
+            <h2 class="section-title">Featured Products</h2>
+            <div class="product-grid" id="productGrid"></div>
+        </section>
+
+        <section class="features">
+            <div class="feature">
+                <div class="feature-icon">🚚</div>
+                <h3>Fast Shipping</h3>
+                <p>Quick delivery with Amazon Prime</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⭐</div>
+                <h3>Top Rated</h3>
+                <p>Only the best reviewed products</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">💰</div>
+                <h3>Best Prices</h3>
+                <p>Great deals on quality items</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔒</div>
+                <h3>Secure Shopping</h3>
+                <p>Safe checkout with Amazon</p>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 PrimeFinds Canada. As an Amazon Associate, we earn from qualifying purchases.</p>
+            <p style="margin-top: 1rem; opacity: 0.7;">Disclaimer: Prices and availability subject to change.</p>
+        </footer>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-header">
+            <h1 class="admin-title">🔐 PrimeFinds Canada - Admin Dashboard</h1>
+            <div class="header-actions">
+                <button class="export-btn" onclick="exportProducts()">📥 Export JSON</button>
+                <button class="import-btn" onclick="document.getElementById('fileInput').click()">📤 Import JSON</button>
+                <button class="back-btn" onclick="goToPublicSite()">← Back to Site</button>
+            </div>
+        </div>
+
+        <div class="admin-container">
+            <div class="admin-info-box">
+                <h3>📋 How to Update Your Website:</h3>
+                <ol>
+                    <li><strong>Manage Products:</strong> Add/edit/delete products here (saved in your browser)</li>
+                    <li><strong>Export JSON:</strong> Click "Export JSON" to download products.json file</li>
+                    <li><strong>Upload to Server:</strong> Upload products.json to your web server (same folder as index.html)</li>
+                    <li><strong>Done!</strong> Your website will automatically load products from the JSON file</li>
+                </ol>
+                <p style="margin-top: 1rem;"><strong>💡 Tip:</strong> After uploading products.json, all visitors will see your latest products!</p>
+            </div>
+
+            <div id="successMessage"></div>
+
+            <button class="add-new-btn" onclick="openAddModal()">
+                <span>+</span> Add New Product
+            </button>
+
+            <div class="admin-product-grid" id="adminProductGrid"></div>
+        </div>
+    </div>
+
+    <input type="file" id="fileInput" accept=".json" onchange="importProducts(event)">
+
+    <!-- Product Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add New Product</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="productForm">
+                <div class="form-group">
+                    <label>Product Title *</label>
+                    <input type="text" id="productTitle" required>
+                </div>
+                <div class="form-group">
+                    <label>Description *</label>
+                    <textarea id="productDesc" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Price *</label>
+                    <input type="text" id="productPrice" placeholder="$99.99" required>
+                </div>
+                <div class="form-group">
+                    <label>Image URL or Emoji</label>
+                    <input type="text" id="productImage" placeholder="🎧 or https://...">
+                </div>
+                <div class="form-group">
+                    <label>Badge (optional)</label>
+                    <input type="text" id="productBadge" placeholder="Best Seller, New, Hot Deal, etc.">
+                </div>
+                <div class="form-group">
+                    <label>Amazon Affiliate Link *</label>
+                    <input type="url" id="productLink" placeholder="https://amazon.com/..." required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Product</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script>
-        const products = [
+        let products = [];
+        let editingProductId = null;
+
+        const sampleProducts = [
             {
-                title: "Wireless Bluetooth Headphones",
-                description: "Experience crystal-clear audio with our premium wireless headphones. Features active noise cancellation, 30-hour battery life, and ultra-comfortable ear cushions perfect for all-day wear.",
-                images: [
-                    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80",
-                    "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800&q=80",
-                    "https://images.unsplash.com/photo-1545127398-14699f92334b?w=800&q=80"
-                ],
-                amazonLink: "https://amazon.com"
+                id: Date.now() + 1,
+                title: 'Premium Wireless Headphones',
+                description: 'Crystal clear sound with active noise cancellation. 30-hour battery life.',
+                price: '$89.99',
+                image: '🎧',
+                badge: 'Best Seller',
+                link: 'https://amazon.com'
             },
             {
-                title: "Smart Fitness Watch",
-                description: "Track your health and fitness goals with this advanced smartwatch. Includes heart rate monitoring, sleep tracking, GPS, and over 100 sport modes to keep you motivated.",
-                images: [
-                    "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80",
-                    "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=800&q=80",
-                    "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=80"
-                ],
-                amazonLink: "https://amazon.com"
+                id: Date.now() + 2,
+                title: 'Laptop Stand Pro',
+                description: 'Ergonomic aluminum stand for better posture and cooling.',
+                price: '$49.99',
+                image: '💻',
+                badge: 'New',
+                link: 'https://amazon.com'
             },
             {
-                title: "Professional Camera Kit",
-                description: "Capture stunning photos with this professional-grade camera. Includes 24MP sensor, 4K video recording, and a versatile lens kit for every shooting scenario.",
-                images: [
-                    "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=800&q=80",
-                    "https://images.unsplash.com/photo-1606244864456-8bee63fce472?w=800&q=80",
-                    "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&q=80"
-                ],
-                amazonLink: "https://amazon.com"
-            },
-            {
-                title: "Luxury Leather Backpack",
-                description: "Handcrafted from premium leather, this backpack combines style and functionality. Features a padded laptop compartment, multiple pockets, and water-resistant coating.",
-                images: [
-                    "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=80",
-                    "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=800&q=80",
-                    "https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=800&q=80"
-                ],
-                amazonLink: "https://amazon.com"
-            },
-            {
-                title: "Portable Coffee Maker",
-                description: "Enjoy barista-quality coffee anywhere with this compact coffee maker. Battery-powered, easy to clean, and compatible with ground coffee and pods.",
-                images: [
-                    "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=800&q=80",
-                    "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800&q=80",
-                    "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80"
-                ],
-                amazonLink: "https://amazon.com"
-            },
-            {
-                title: "Gaming Mechanical Keyboard",
-                description: "Dominate the competition with this RGB mechanical keyboard. Features customizable lighting, programmable keys, and responsive switches for ultimate gaming performance.",
-                images: [
-                    "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800&q=80",
-                    "https://images.unsplash.com/photo-1595225476474-87563907a212?w=800&q=80",
-                    "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=800&q=80"
-                ],
-                amazonLink: "https://amazon.com"
+                id: Date.now() + 3,
+                title: 'Smart Fitness Watch',
+                description: 'Track your health, workouts, and stay connected on the go.',
+                price: '$129.99',
+                image: '⌚',
+                badge: 'Trending',
+                link: 'https://amazon.com'
             }
         ];
 
-        function createCarousel(images, index) {
-            return `
-                <div class="carousel" data-product="${index}">
-                    <div class="carousel-inner">
-                        ${images.map(img => `
-                            <div class="carousel-slide">
-                                <img src="${img}" alt="Product image">
-                            </div>
-                        `).join('')}
-                    </div>
-                    <button class="carousel-btn prev" onclick="moveSlide(${index}, -1)">❮</button>
-                    <button class="carousel-btn next" onclick="moveSlide(${index}, 1)">❯</button>
-                    <div class="carousel-dots">
-                        ${images.map((_, i) => `
-                            <span class="dot ${i === 0 ? 'active' : ''}" onclick="goToSlide(${index}, ${i})"></span>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
+        async function loadProducts() {
+            try {
+                const response = await fetch('products.json');
+                if (response.ok) {
+                    const data = await response.json();
+                    products = data.products || [];
+                    console.log('✅ Products loaded from products.json');
+                    renderProducts();
+                    renderAdminProducts();
+                    return;
+                }
+            } catch (error) {
+                console.log('ℹ️ No products.json file found, using localStorage');
+            }
+
+            const saved = localStorage.getItem('products');
+            if (saved) {
+                products = JSON.parse(saved);
+                console.log('✅ Products loaded from localStorage');
+            } else {
+                products = sampleProducts;
+                console.log('✅ Using sample products');
+            }
+
+            renderProducts();
+            renderAdminProducts();
+        }
+
+        function saveProducts() {
+            localStorage.setItem('products', JSON.stringify(products));
+            console.log('✅ Products saved to localStorage');
+        }
+
+        function exportProducts() {
+            const dataStr = JSON.stringify({ products: products }, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'products.json';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            showSuccessMessage('✅ products.json downloaded! Upload it to your web server.');
+        }
+
+        function importProducts(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (data.products && Array.isArray(data.products)) {
+                        products = data.products;
+                        saveProducts();
+                        renderAdminProducts();
+                        renderProducts();
+                        showSuccessMessage('✅ Products imported successfully!');
+                    } else {
+                        alert('Invalid JSON format. Expected: {"products": [...]}');
+                    }
+                } catch (error) {
+                    alert('Error reading JSON file: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        function showSuccessMessage(message) {
+            const container = document.getElementById('successMessage');
+            container.innerHTML = `<div class="success-message">${message}</div>`;
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        function checkRoute() {
+            const hash = window.location.hash;
+            if (hash === '#admin' || hash === '#admin-panel') {
+                showAdminPanel();
+            } else {
+                showPublicSite();
+            }
+        }
+
+        function showAdminPanel() {
+            document.getElementById('publicSite').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            renderAdminProducts();
+        }
+
+        function showPublicSite() {
+            document.getElementById('publicSite').style.display = 'block';
+            document.getElementById('adminPanel').style.display = 'none';
+            renderProducts();
+        }
+
+        function goToPublicSite() {
+            window.location.hash = '';
+            showPublicSite();
         }
 
         function renderProducts() {
-            const grid = document.getElementById('productsGrid');
-            grid.innerHTML = products.map((product, index) => `
-                <div class="product-card">
-                    ${createCarousel(product.images, index)}
-                    <div class="product-info">
-                        <h2 class="product-title">${product.title}</h2>
-                        <p class="product-description">${product.description}</p>
-                        <a href="${product.amazonLink}" target="_blank" class="amazon-btn">View on Amazon →</a>
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+
+            if (products.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📦</div>
+                        <h3>No products yet</h3>
+                        <p>Products will appear here once added</p>
                     </div>
-                </div>
-            `).join('');
-        }
+                `;
+                return;
+            }
 
-        const carouselStates = products.map(() => ({ currentSlide: 0 }));
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                
+                const isImageUrl = product.image && product.image.startsWith('http');
+                const imageContent = isImageUrl 
+                    ? `<img src="${product.image}" alt="${product.title}">`
+                    : (product.image || '📦');
 
-        function moveSlide(productIndex, direction) {
-            const state = carouselStates[productIndex];
-            const totalSlides = products[productIndex].images.length;
-            
-            state.currentSlide = (state.currentSlide + direction + totalSlides) % totalSlides;
-            updateCarousel(productIndex);
-        }
-
-        function goToSlide(productIndex, slideIndex) {
-            carouselStates[productIndex].currentSlide = slideIndex;
-            updateCarousel(productIndex);
-        }
-
-        function updateCarousel(productIndex) {
-            const carousel = document.querySelector(`[data-product="${productIndex}"]`);
-            const inner = carousel.querySelector('.carousel-inner');
-            const dots = carousel.querySelectorAll('.dot');
-            const currentSlide = carouselStates[productIndex].currentSlide;
-            
-            inner.style.transform = `translateX(-${currentSlide * 100}%)`;
-            
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentSlide);
+                card.innerHTML = `
+                    <div class="product-image">
+                        ${imageContent}
+                        ${product.badge ? `<span class="badge">${product.badge}</span>` : ''}
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">${product.title}</h3>
+                        <p class="product-desc">${product.description}</p>
+                        <div class="product-footer">
+                            <span class="price">${product.price}</span>
+                            <button class="buy-btn" onclick="window.open('${product.link}', '_blank')">View on Amazon</button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
             });
         }
 
-        renderProducts();
+        function renderAdminProducts() {
+            const grid = document.getElementById('adminProductGrid');
+            grid.innerHTML = '';
+
+            if (products.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📦</div>
+                        <h3>No products yet</h3>
+                        <p>Click "Add New Product" to get started</p>
+                    </div>
+                `;
+                return;
+            }
+
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'admin-product-card';
+                
+                const isImageUrl = product.image && product.image.startsWith('http');
+                const imageContent = isImageUrl 
+                    ? `<img src="${product.image}" alt="${product.title}">`
+                    : (product.image || '📦');
+
+                card.innerHTML = `
+                    <div class="admin-product-image">
+                        ${imageContent}
+                    </div>
+                    <div class="admin-product-info">
+                        <h3>${product.title}</h3>
+                        <p>${product.description}</p>
+                        <div class="admin-product-meta">
+                            <span>💰 ${product.price}</span>
+                            ${product.badge ? `<span>🏷️ ${product.badge}</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="admin-actions">
+                        <button class="edit-btn" onclick="editProduct(${product.id})">Edit</button>
+                        <button class="delete-btn" onclick="deleteProduct(${product.id})">Delete</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function openAddModal() {
+            editingProductId = null;
+            document.getElementById('modalTitle').textContent = 'Add New Product';
+            document.getElementById('productForm').reset();
+            document.getElementById('productModal').classList.add('active');
+        }
+
+        function editProduct(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            editingProductId = id;
+            document.getElementById('modalTitle').textContent = 'Edit Product';
+            document.getElementById('productTitle').value = product.title;
+            document.getElementById('productDesc').value = product.description;
+            document.getElementById('productPrice').value = product.price;
+            document.getElementById('productImage').value = product.image || '';
+            document.getElementById('productBadge').value = product.badge || '';
+            document.getElementById('productLink').value = product.link;
+            
+            document.getElementById('productModal').classList.add('active');
+        }
+
+        function deleteProduct(id) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                products = products.filter(p => p.id !== id);
+                saveProducts();
+                renderAdminProducts();
+                renderProducts();
+                showSuccessMessage('✅ Product deleted successfully!');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('productModal').classList.remove('active');
+            editingProductId = null;
+        }
+
+        document.getElementById('productForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const productData = {
+                title: document.getElementById('productTitle').value,
+                description: document.getElementById('productDesc').value,
+                price: document.getElementById('productPrice').value,
+                image: document.getElementById('productImage').value || '📦',
+                badge: document.getElementById('productBadge').value,
+                link: document.getElementById('productLink').value
+            };
+
+            if (editingProductId) {
+                const index = products.findIndex(p => p.id === editingProductId);
+                products[index] = { ...products[index], ...productData };
+                showSuccessMessage('✅ Product updated successfully!');
+            } else {
+                productData.id = Date.now();
+                products.push(productData);
+                showSuccessMessage('✅ Product added successfully!');
+            }
+
+            saveProducts();
+            renderAdminProducts();
+            renderProducts();
+            closeModal();
+        });
+
+        document.getElementById('productModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        window.addEventListener('hashchange', checkRoute);
+
+        loadProducts();
+        checkRoute();
     </script>
 </body>
 </html>
