@@ -144,12 +144,19 @@ nav {
 }
 
 .hero {
-    max-width: 1200px;
-    margin: 4rem auto;
+    /* full-bleed hero background */
+    width: 100%;
     padding: 4rem 2rem;
     text-align: center;
     color: white;
     animation: fadeIn 1s ease;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
 }
 
 @keyframes fadeIn {
