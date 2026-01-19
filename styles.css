@@ -203,9 +203,12 @@ nav {
 }
 
 .product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    /* Use flex so cards keep a fixed width and center when there are few items */
+    display: flex;
+    flex-wrap: wrap;
     gap: 2rem;
+    justify-content: center;
+    align-items: start;
 }
 
 .product-card {
@@ -216,6 +219,11 @@ nav {
     transition: all 0.3s;
     cursor: pointer;
     position: relative;
+    /* fixed card size to avoid expanding when only one product */
+    width: 340px;
+    height: 460px;
+    display: flex;
+    flex-direction: column;
 }
 
 .product-card:hover {
@@ -225,7 +233,7 @@ nav {
 
 .product-image {
     width: 100%;
-    height: 250px;
+    height: 220px;
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     display: flex;
     align-items: center;
@@ -255,19 +263,31 @@ nav {
 }
 
 .product-info {
-    padding: 1.5rem;
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
 }
 
 .product-title {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     margin-bottom: 0.5rem;
     color: #333;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .product-desc {
     color: #666;
     margin-bottom: 1rem;
-    line-height: 1.6;
+    line-height: 1.5;
+    /* clamp description to max lines and show ellipsis */
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .product-footer {
