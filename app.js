@@ -1,5 +1,6 @@
 let products = [];
 let editingProductId = null;
+let currentSearch = '';
 
 const sampleProducts = [
 ];
@@ -30,6 +31,27 @@ async function loadProducts() {
 
     renderProducts();
     if (document.getElementById('adminProductGrid')) renderAdminProducts();
+}
+
+// Initialize search input behavior (if present)
+function initSearch() {
+    const input = document.getElementById('productSearch');
+    const clearBtn = document.getElementById('clearSearch');
+    if (!input) return;
+    input.addEventListener('input', (e) => {
+        currentSearch = (e.target.value || '').trim();
+        if (clearBtn) clearBtn.style.display = currentSearch ? 'inline' : 'none';
+        renderProducts();
+    });
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            input.value = '';
+            currentSearch = '';
+            clearBtn.style.display = 'none';
+            renderProducts();
+            input.focus();
+        });
+    }
 }
 
 function saveProducts() {
@@ -129,7 +151,20 @@ function renderProducts() {
     if (!grid) return;
     grid.innerHTML = '';
 
-    const visibleProducts = products.filter(p => p.visible !== false);
+    // Start with public-visible products
+    let visibleProducts = products.filter(p => p.visible !== false);
+
+    // Apply search filter across title, description, badge, and price (case-insensitive)
+    if (currentSearch && currentSearch.length > 0) {
+        const q = currentSearch.toLowerCase();
+        visibleProducts = visibleProducts.filter(p => {
+            const title = (p.title || '').toLowerCase();
+            const desc = (p.description || '').toLowerCase();
+            const badge = (p.badge || '').toLowerCase();
+            const price = String(p.price || '').toLowerCase();
+            return title.includes(q) || desc.includes(q) || badge.includes(q) || price.includes(q);
+        });
+    }
 
     if (visibleProducts.length === 0) {
         grid.innerHTML = `
@@ -316,3 +351,5 @@ window.addEventListener('popstate', checkRoute);
 
 loadProducts();
 checkRoute();
+// wire search if present
+initSearch();
