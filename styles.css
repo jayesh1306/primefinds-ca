@@ -132,6 +132,17 @@ nav {
     }
 }
 
+/* When search is used inside products area */
+.products .nav-search {
+    margin: 0 auto 1.5rem auto;
+    justify-content: center;
+    width: 100%;
+}
+.products .nav-search input[type="search"] {
+    width: 560px;
+    max-width: 100%;
+}
+
 .hero {
     max-width: 1200px;
     margin: 4rem auto;

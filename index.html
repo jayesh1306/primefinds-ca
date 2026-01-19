@@ -28,10 +28,6 @@
         <header>
             <nav>
                 <a class="logo" href="/" aria-label="PrimeFinds Canada homepage">PrimeFinds Canada</a>
-                <div class="nav-search">
-                    <input id="productSearch" type="search" placeholder="Search products..." aria-label="Search products">
-                    <button id="clearSearch" aria-label="Clear search" title="Clear" style="display:none">✕</button>
-                </div>
                 <ul class="nav-links">
                     <li><a href="#home">Home</a></li>
                     <li><a href="#products">Products</a></li>
@@ -49,6 +45,12 @@
 
         <section class="products" id="products">
             <h2 class="section-title">Featured Products</h2>
+            <div class="products-search">
+                <div class="nav-search">
+                    <input id="productSearch" type="search" placeholder="Search products..." aria-label="Search products">
+                    <button id="clearSearch" aria-label="Clear search" title="Clear" style="display:none">✕</button>
+                </div>
+            </div>
             <div class="product-grid" id="productGrid"></div>
         </section>
 
