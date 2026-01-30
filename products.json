@@ -1,6 +1,16 @@
 {
   "products": [
     {
+      "title": "Cloud Couch, Comfort Large Modular Corduroy Sectional Sofa",
+      "description": "Living Room Upholstered Lounge Chair with Double Cushions, Moveable Ottoman, Modern Style,for Relaxation, Reading, Watching Movies (White)",
+      "price": "599.99",
+      "image": "https://m.media-amazon.com/images/I/912ilGPkf6L._AC_SL1500_.jpg",
+      "badge": "Best Seller",
+      "link": "https://amzn.to/4qWXdbk",
+      "visible": true,
+      "id": 1769812453138
+    },
+    {
       "title": "DJI Mini 4K, Drone with 4K UHD Camera for Adults, Under 249 g, 3-Axis Gimbal Stabilization, 10km Video Transmission, Auto Return, Wind Resistance, 1 Battery for 31-Min Max Flight Time, Intelligent",
       "description": "No Registration Needed - Under 249 g, FAA Registration and Remote ID are not required if you fly for recreational purposes. Visit the FAA's official website for requirements related to drone registration and Remote ID. [1]\n",
       "price": "389",
