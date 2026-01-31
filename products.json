@@ -1,9 +1,17 @@
 {
   "products": [
     {
+      "title": "Nike V2k Run, Women's Trainers",
+      "description": "Sole materialRubber\nOuter materialMesh upper is lightweight and well ventilated\nClosure typeLace-Up",
+      "image": "https://m.media-amazon.com/images/I/71TTmes-yFL._AC_SY575_.jpg",
+      "badge": "New Drop",
+      "link": "https://amzn.to/3OgsE1x",
+      "visible": true,
+      "id": 1769884503572
+    },
+    {
       "title": "Cloud Couch, Comfort Large Modular Corduroy Sectional Sofa",
       "description": "Living Room Upholstered Lounge Chair with Double Cushions, Moveable Ottoman, Modern Style,for Relaxation, Reading, Watching Movies (White)",
-      "price": "599.99",
       "image": "https://m.media-amazon.com/images/I/912ilGPkf6L._AC_SL1500_.jpg",
       "badge": "Best Seller",
       "link": "https://amzn.to/4qWXdbk",
@@ -150,5 +158,6 @@
       "visible": true,
       "id": 1769180666432
     }
+    
   ]
 }

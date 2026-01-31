@@ -154,15 +154,14 @@ function renderProducts() {
     // Start with public-visible products
     let visibleProducts = products.filter(p => p.visible !== false);
 
-    // Apply search filter across title, description, badge, and price (case-insensitive)
+    // Apply search filter across title, description, badge (case-insensitive)
     if (currentSearch && currentSearch.length > 0) {
         const q = currentSearch.toLowerCase();
         visibleProducts = visibleProducts.filter(p => {
             const title = (p.title || '').toLowerCase();
             const desc = (p.description || '').toLowerCase();
             const badge = (p.badge || '').toLowerCase();
-            const price = String(p.price || '').toLowerCase();
-            return title.includes(q) || desc.includes(q) || badge.includes(q) || price.includes(q);
+            return title.includes(q) || desc.includes(q) || badge.includes(q);
         });
     }
 
@@ -195,7 +194,6 @@ function renderProducts() {
                 <h3 class="product-title">${product.title}</h3>
                 <p class="product-desc">${product.description}</p>
                 <div class="product-footer">
-                    <span class="price">$${product.price}</span>
                     <button class="buy-btn" onclick="window.open('${product.link}', '_blank')">View on Amazon</button>
                 </div>
             </div>
@@ -235,7 +233,6 @@ function renderAdminProducts() {
                 <h3>${product.title}</h3>
                 <p>${product.description}</p>
                 <div class="admin-product-meta">
-                    <span>💰 ${product.price}</span>
                     ${product.badge ? `<span>🏷️ ${product.badge}</span>` : ''}
                     <span style="margin-left:8px; font-size:0.9rem; color:${product.visible === false ? '#888' : '#2d8a4d'}">${product.visible === false ? 'Private' : 'Public'}</span>
                 </div>
@@ -269,7 +266,6 @@ function editProduct(id) {
     if (modalTitle) modalTitle.textContent = 'Edit Product';
     document.getElementById('productTitle').value = product.title;
     document.getElementById('productDesc').value = product.description;
-    document.getElementById('productPrice').value = product.price;
     document.getElementById('productImage').value = product.image || '';
     document.getElementById('productBadge').value = product.badge || '';
     document.getElementById('productLink').value = product.link;
@@ -315,7 +311,6 @@ if (productForm) {
         const productData = {
             title: document.getElementById('productTitle').value,
             description: document.getElementById('productDesc').value,
-            price: document.getElementById('productPrice').value,
             image: document.getElementById('productImage').value || '📦',
             badge: document.getElementById('productBadge').value,
             link: document.getElementById('productLink').value,
@@ -328,7 +323,7 @@ if (productForm) {
             showSuccessMessage('✅ Product updated successfully!');
         } else {
             productData.id = Date.now();
-            products.push(productData);
+            products.unshift(productData);
             showSuccessMessage('✅ Product added successfully!');
         }
 
