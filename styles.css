@@ -137,46 +137,10 @@ nav {
     margin: 0 auto 1.5rem auto;
     justify-content: center;
     width: 100%;
-    display: flex;
 }
-
 .products .nav-search input[type="search"] {
     width: 560px;
     max-width: 100%;
-}
-
-/* Mobile search bar styles */
-@media (max-width: 768px) {
-    .products .nav-search {
-        padding: 0 1rem;
-        margin: 0 auto 1.5rem auto;
-    }
-
-    .products .nav-search input[type="search"] {
-        width: 100%;
-        max-width: 100%;
-        font-size: 1rem;
-        padding: 0.7rem 1rem;
-        padding-right: 2.5rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .products .nav-search {
-        padding: 0 0.75rem;
-        margin: 0 auto 1.25rem auto;
-    }
-
-    .products .nav-search input[type="search"] {
-        font-size: 16px; /* prevents zoom on iOS */
-        padding: 0.6rem 0.8rem;
-        padding-right: 2.3rem;
-    }
-
-    .products .nav-search button#clearSearch {
-        padding: 0.3rem 0.5rem;
-        font-size: 0.8rem;
-    }
 }
 
 .hero {
@@ -359,11 +323,8 @@ nav {
 /* Pagination */
 #pagination {
     margin-top: 3rem;
-    padding: 2rem 1rem;
     display: flex;
     justify-content: center;
-    width: 100%;
-    overflow-x: auto;
 }
 
 .pagination-nav {
@@ -372,7 +333,6 @@ nav {
     gap: 0.5rem;
     flex-wrap: wrap;
     justify-content: center;
-    min-width: min-content;
 }
 
 .pagination-btn,
@@ -385,8 +345,6 @@ nav {
     cursor: pointer;
     font-weight: 500;
     transition: all 0.3s ease;
-    white-space: nowrap;
-    font-size: 0.95rem;
 }
 
 .pagination-btn:not(.disabled):hover,
@@ -418,63 +376,6 @@ nav {
 .pagination-number {
     min-width: 40px;
     padding: 0.5rem 0.7rem;
-    font-size: 0.9rem;
-}
-
-/* Mobile Pagination */
-@media (max-width: 768px) {
-    #pagination {
-        margin-top: 2rem;
-        padding: 1.5rem 0.5rem;
-    }
-
-    .pagination-btn,
-    .pagination-number {
-        padding: 0.45rem 0.7rem;
-        font-size: 0.85rem;
-        border-width: 1.5px;
-    }
-
-    .pagination-number {
-        min-width: 36px;
-        padding: 0.45rem 0.6rem;
-    }
-
-    .pagination-pages {
-        gap: 0.15rem;
-    }
-}
-
-/* Extra small devices */
-@media (max-width: 480px) {
-    .pagination-nav {
-        gap: 0.3rem;
-    }
-
-    .pagination-btn,
-    .pagination-number {
-        padding: 0.4rem 0.5rem;
-        font-size: 0.75rem;
-        border-width: 1px;
-    }
-
-    .pagination-number {
-        min-width: 32px;
-        padding: 0.4rem 0.5rem;
-    }
-
-    .pagination-pages {
-        gap: 0.1rem;
-    }
-
-    /* Hide page numbers on very small screens, keep only prev/next */
-    .pagination-pages .pagination-number:not(.active) {
-        display: none;
-    }
-
-    .pagination-pages .pagination-number.active {
-        display: inline-block;
-    }
 }
 
 .features {
