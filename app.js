@@ -1,6 +1,8 @@
 let products = [];
 let editingProductId = null;
 let currentSearch = '';
+let currentPage = 1;
+const itemsPerPage = 12;
 
 const sampleProducts = [
 ];
@@ -40,6 +42,7 @@ function initSearch() {
     if (!input) return;
     input.addEventListener('input', (e) => {
         currentSearch = (e.target.value || '').trim();
+        currentPage = 1;  // Reset to page 1 when searching
         if (clearBtn) clearBtn.style.display = currentSearch ? 'inline' : 'none';
         renderProducts();
     });
@@ -47,6 +50,7 @@ function initSearch() {
         clearBtn.addEventListener('click', () => {
             input.value = '';
             currentSearch = '';
+            currentPage = 1;  // Reset to page 1 when clearing
             clearBtn.style.display = 'none';
             renderProducts();
             input.focus();
@@ -173,10 +177,17 @@ function renderProducts() {
                 <p>Products will appear here once added</p>
             </div>
         `;
+        renderPagination(0);
         return;
     }
 
-    visibleProducts.forEach(product => {
+    // Calculate pagination
+    const totalPages = Math.ceil(visibleProducts.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedProducts = visibleProducts.slice(startIndex, endIndex);
+
+    paginatedProducts.forEach(product => {
         const card = document.createElement('div');
         card.className = 'product-card';
         
@@ -200,6 +211,69 @@ function renderProducts() {
         `;
         grid.appendChild(card);
     });
+
+    renderPagination(totalPages);
+}
+
+function renderPagination(totalPages) {
+    const paginationContainer = document.getElementById('pagination');
+    if (!paginationContainer) return;
+    
+    paginationContainer.innerHTML = '';
+    
+    if (totalPages <= 1) return;
+
+    const nav = document.createElement('nav');
+    nav.className = 'pagination-nav';
+    nav.setAttribute('aria-label', 'Product pagination');
+
+    // Previous button
+    const prevBtn = document.createElement('button');
+    prevBtn.className = `pagination-btn ${currentPage === 1 ? 'disabled' : ''}`;
+    prevBtn.textContent = '← Previous';
+    prevBtn.disabled = currentPage === 1;
+    prevBtn.onclick = () => {
+        if (currentPage > 1) {
+            currentPage--;
+            renderProducts();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    };
+    nav.appendChild(prevBtn);
+
+    // Page numbers
+    const pagesContainer = document.createElement('div');
+    pagesContainer.className = 'pagination-pages';
+
+    for (let i = 1; i <= totalPages; i++) {
+        const pageBtn = document.createElement('button');
+        pageBtn.className = `pagination-number ${i === currentPage ? 'active' : ''}`;
+        pageBtn.textContent = i;
+        pageBtn.disabled = i === currentPage;
+        pageBtn.onclick = () => {
+            currentPage = i;
+            renderProducts();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+        pagesContainer.appendChild(pageBtn);
+    }
+    nav.appendChild(pagesContainer);
+
+    // Next button
+    const nextBtn = document.createElement('button');
+    nextBtn.className = `pagination-btn ${currentPage === totalPages ? 'disabled' : ''}`;
+    nextBtn.textContent = 'Next →';
+    nextBtn.disabled = currentPage === totalPages;
+    nextBtn.onclick = () => {
+        if (currentPage < totalPages) {
+            currentPage++;
+            renderProducts();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    };
+    nav.appendChild(nextBtn);
+
+    paginationContainer.appendChild(nav);
 }
 
 function renderAdminProducts() {
