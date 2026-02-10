@@ -215,6 +215,53 @@ nav {
     box-shadow: 0 15px 40px rgba(0,0,0,0.3);
 }
 
+/* Responsive hero section */
+@media (max-width: 768px) {
+    .hero {
+        padding: 3rem 1.5rem;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .hero p {
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .cta-btn {
+        padding: 0.8rem 2rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        padding: 2rem 1rem;
+    }
+
+    .hero-content {
+        padding: 0 0.5rem;
+    }
+
+    .hero h1 {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .hero p {
+        font-size: 0.95rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .cta-btn {
+        padding: 0.7rem 1.8rem;
+        font-size: 0.95rem;
+    }
+}
+
 .products {
     max-width: 1200px;
     margin: 0 auto;
