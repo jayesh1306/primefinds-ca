@@ -190,6 +190,8 @@ function renderProducts() {
     paginatedProducts.forEach(product => {
         const card = document.createElement('div');
         card.className = 'product-card';
+        card.style.cursor = 'pointer';
+        card.onclick = () => window.open(product.link, '_blank');
         
         const isImageUrl = product.image && product.image.startsWith('http');
         const imageContent = isImageUrl 
@@ -205,7 +207,7 @@ function renderProducts() {
                 <h3 class="product-title">${product.title}</h3>
                 <p class="product-desc">${product.description}</p>
                 <div class="product-footer">
-                    <button class="buy-btn" onclick="window.open('${product.link}', '_blank')">View on Amazon</button>
+                    <button class="buy-btn" onclick="event.stopPropagation(); window.open('${product.link}', '_blank')">View on Amazon</button>
                 </div>
             </div>
         `;
