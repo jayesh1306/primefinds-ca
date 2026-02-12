@@ -3,122 +3,398 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PrimeFinds Canada - Your Amazon Finds</title>
-    <meta name="description" content="PrimeFinds Canada curates top Amazon finds for Canadian shoppers — handpicked deals, fast shipping with Prime, and honest product picks. Browse featured items and best prices.">
+    <title>PrimeFinds - Curated Amazon Finds</title>
+    <meta name="description" content="Discover handpicked Amazon products perfect for shoppers. Quality items, honest reviews, and fast Prime shipping. Your trusted source for smart shopping.">
     <meta name="robots" content="index, follow">
     <link rel="alternate" hreflang="en-CA" href="/">
+    
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="PrimeFinds Canada - Your Amazon Finds">
-    <meta property="og:description" content="Handpicked Amazon finds for Canadian shoppers — curated deals, trusted reviews, and fast Prime shipping.">
+    <meta property="og:title" content="PrimeFinds Canada - Curated Amazon Finds">
+    <meta property="og:description" content="Handpicked Amazon products for shoppers — trusted reviews, quality picks, and fast Prime shipping.">
     <meta property="og:url" content="">
+    <meta property="og:image" content="/og-image.jpg">
+    
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="PrimeFinds Canada - Your Amazon Finds">
-    <meta name="twitter:description" content="Handpicked Amazon finds for Canadian shoppers — curated deals, trusted reviews, and fast Prime shipping.">
-    <meta name="theme-color" content="#ffffff">
-    <!-- canonical will be set dynamically to the current page URL -->
+    <meta name="twitter:title" content="PrimeFinds Canada - Curated Amazon Finds">
+    <meta name="twitter:description" content="Handpicked Amazon products for shoppers — trusted reviews, quality picks, and fast Prime shipping.">
+    <meta name="twitter:image" content="/og-image.jpg">
+    
+    <meta name="theme-color" content="#0F172A">
     <link rel="canonical" href="">
-    <!-- JSON-LD structured data will be injected dynamically to use the current origin -->
+    
+    <!-- Google Fonts - Modern, distinctive typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- Public Website -->
     <div class="public-site" id="publicSite">
-        <header>
-            <nav>
-                <a class="logo" href="/" aria-label="PrimeFinds Canada homepage">PrimeFinds Canada</a>
+        
+        <!-- Navigation -->
+        <header class="site-header">
+            <nav class="nav-container">
+                <a class="logo" href="/" aria-label="PrimeFinds Canada homepage">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="8" fill="url(#logo-gradient)"/>
+                        <path d="M10 16L14 20L22 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <defs>
+                            <linearGradient id="logo-gradient" x1="0" y1="0" x2="32" y2="32">
+                                <stop stop-color="#3B82F6"/>
+                                <stop offset="1" stop-color="#8B5CF6"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span>PrimeFinds</span>
+                    <!-- <span class="country-badge">CA</span> -->
+                </a>
+                
+                <div class="nav-links">
+                    <a href="#products" class="nav-link">Products</a>
+                    <a href="#about" class="nav-link">About</a>
+                    <a href="#how-it-works" class="nav-link">How It Works</a>
+                </div>
             </nav>
         </header>
 
+        <!-- Hero Section -->
         <section class="hero">
+            <div class="hero-background">
+                <div class="gradient-orb orb-1"></div>
+                <div class="gradient-orb orb-2"></div>
+                <div class="gradient-orb orb-3"></div>
+            </div>
+            
             <div class="hero-content">
-                <h1>Discover Amazing Products</h1>
-                <p>Handpicked selections just for you. Quality products at unbeatable prices.</p>
-                <button class="cta-btn" onclick="document.querySelector('.products').scrollIntoView({behavior: 'smooth'})">Shop Now</button>
+                <div class="hero-badge">
+                    <span class="badge-icon">🌍</span>
+                    <span>Handpicked</span>
+                </div>
+                
+                <h1 class="hero-title">
+                    Discover Products You'll
+                    <span class="gradient-text">Actually Love</span>
+                </h1>
+                
+                <p class="hero-subtitle">
+                    We curate the best Amazon finds so you don't have to scroll through thousands of mediocre products. 
+                    Quality picks, honest reviews, fast Prime shipping.
+                </p>
+                
+                <div class="hero-actions">
+                    <button class="btn btn-primary" onclick="document.querySelector('#products').scrollIntoView({behavior: 'smooth'})">
+                        Browse Products
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M7 10H13M13 10L10 7M13 10L10 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <button class="btn btn-secondary" onclick="document.querySelector('#how-it-works').scrollIntoView({behavior: 'smooth'})">
+                        Learn More
+                    </button>
+                </div>
+                
+                <!-- <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Curated Products</div>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <div class="stat-number">10k+</div>
+                        <div class="stat-label">Happy Shoppers</div>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <div class="stat-number">4.8★</div>
+                        <div class="stat-label">Average Rating</div>
+                    </div>
+                </div> -->
             </div>
         </section>
 
-        <section class="products" id="products">
-            <h2 class="section-title">Featured Products</h2>
-            <div class="products-search">
-                <div class="nav-search">
-                    <input id="productSearch" type="search" placeholder="Search products..." aria-label="Search products">
-                    <button id="clearSearch" aria-label="Clear search" title="Clear" style="display:none">✕</button>
+        <!-- Trust Bar -->
+        <section class="trust-bar">
+            <div class="trust-container">
+                <div class="trust-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Quality Verified</span>
+                </div>
+                <div class="trust-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M13 7L11 17M17 9L7 15M5 3H19C20.1046 3 21 3.89543 21 5V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Free Shipping with Prime</span>
+                </div>
+                <div class="trust-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 8V12L15 15M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Daily Updates</span>
+                </div>
+                <!-- <div class="trust-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 5V3M12 21V19M19 12H21M3 12H5M17.6569 17.6569L19.0711 19.0711M4.92893 4.92893L6.34315 6.34315M6.34315 17.6569L4.92893 19.0711M19.0711 4.92893L17.6569 6.34315" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <span>Canadian Focus</span>
+                </div> -->
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section class="products-section" id="products">
+            <div class="products-container">
+                <div class="section-header">
+                    <div class="section-badge">Featured Collection</div>
+                    <h2 class="section-title">Handpicked Products</h2>
+                    <p class="section-subtitle">
+                        Each product is carefully selected and tested to ensure quality, value, and reliability.
+                    </p>
+                </div>
+                
+                <!-- Search Bar -->
+                <div class="search-wrapper">
+                    <div class="search-container">
+                        <svg class="search-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M9 17C13.4183 17 17 13.4183 17 9C17 4.58172 13.4183 1 9 1C4.58172 1 1 4.58172 1 9C1 13.4183 4.58172 17 9 17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M19 19L14.65 14.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <input 
+                            id="productSearch" 
+                            type="search" 
+                            placeholder="Search for products..." 
+                            aria-label="Search products"
+                        >
+                        <button id="clearSearch" class="clear-btn" aria-label="Clear search" title="Clear" style="display:none">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Product Grid -->
+                <div class="product-grid" id="productGrid"></div>
+                
+                <!-- Pagination -->
+                <div id="pagination"></div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="how-it-works" id="how-it-works">
+            <div class="how-it-works-container">
+                <div class="section-header">
+                    <div class="section-badge">Simple Process</div>
+                    <h2 class="section-title">How It Works</h2>
+                    <p class="section-subtitle">
+                        We make online shopping easy, trustworthy, and fun.
+                    </p>
+                </div>
+                
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="step-number">01</div>
+                        <div class="step-icon">
+                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                <path d="M16 6V26M16 6L22 12M16 6L10 12" stroke="url(#step1-gradient)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <defs>
+                                    <linearGradient id="step1-gradient" x1="10" y1="6" x2="22" y2="26">
+                                        <stop stop-color="#3B82F6"/>
+                                        <stop offset="1" stop-color="#8B5CF6"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <h3>We Curate</h3>
+                        <p>We tests and reviews hundreds of products to find the best ones worth your money.</p>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-number">02</div>
+                        <div class="step-icon">
+                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                <circle cx="16" cy="16" r="10" stroke="url(#step2-gradient)" stroke-width="2.5"/>
+                                <path d="M11 16L14 19L21 12" stroke="url(#step2-gradient)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <defs>
+                                    <linearGradient id="step2-gradient" x1="6" y1="6" x2="26" y2="26">
+                                        <stop stop-color="#3B82F6"/>
+                                        <stop offset="1" stop-color="#8B5CF6"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <h3>You Browse</h3>
+                        <p>Explore our collection of quality products with honest reviews and detailed information.</p>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-number">03</div>
+                        <div class="step-icon">
+                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                <path d="M6 11L16 6L26 11M6 11V21L16 26M6 11L16 16M26 11V21L16 26M26 11L16 16M16 16V26" stroke="url(#step3-gradient)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <defs>
+                                    <linearGradient id="step3-gradient" x1="6" y1="6" x2="26" y2="26">
+                                        <stop stop-color="#3B82F6"/>
+                                        <stop offset="1" stop-color="#8B5CF6"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <h3>Fast Delivery</h3>
+                        <p>Order directly from Amazon with Prime shipping for fast, reliable delivery across Canada.</p>
+                    </div>
                 </div>
             </div>
-            <div class="product-grid" id="productGrid"></div>
-            <div id="pagination"></div>
         </section>
 
-        <footer>
-            <p>&copy; 2026 PrimeFinds Canada. As an Amazon Associate, we earn from qualifying purchases.</p>
-            <p style="margin-top: 1rem; opacity: 0.7;">Disclaimer: Prices and availability subject to change.</p>
+        <!-- About Section -->
+        <section class="about-section" id="about">
+            <div class="about-container">
+                <div class="about-content">
+                    <div class="section-badge">About Us</div>
+                    <h2 class="section-title">Your Trusted Shopping Companion</h2>
+                    <div class="about-text">
+                        <p>
+                            PrimeFinds Canada was created with a simple mission: make online shopping easier for Canadians. 
+                            We know how overwhelming it can be to scroll through thousands of products, read conflicting 
+                            reviews, and wonder if you're getting good value.
+                        </p>
+                        <p>
+                            That's why we do the heavy lifting for you. We personally tests, researches, and curates 
+                            only the products that meet our strict standards for quality, value, and customer satisfaction. 
+                            Every product you see here has been vetted by real people who care about helping you make 
+                            smart purchasing decisions.
+                        </p>
+                        <p>
+                            We're proud to serve the Canadian community with products that work for our unique needs, 
+                            climate, and lifestyle. From coast to coast, we're here to help you shop smarter.
+                        </p>
+                    </div>
+                    
+                    <div class="about-values">
+                        <div class="value-item">
+                            <div class="value-icon">✓</div>
+                            <div>
+                                <div class="value-title">Honest Reviews</div>
+                                <div class="value-desc">No paid promotions or fake reviews</div>
+                            </div>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon">✓</div>
+                            <div>
+                                <div class="value-title">Quality First</div>
+                                <div class="value-desc">Only products we'd recommend to family</div>
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+            <div class="footer-container">
+                <div class="footer-grid">
+                    <div class="footer-brand">
+                        <div class="footer-logo">
+                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="32" height="32" rx="8" fill="url(#footer-logo-gradient)"/>
+                                <path d="M10 16L14 20L22 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <defs>
+                                    <linearGradient id="footer-logo-gradient" x1="0" y1="0" x2="32" y2="32">
+                                        <stop stop-color="#3B82F6"/>
+                                        <stop offset="1" stop-color="#8B5CF6"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <span>PrimeFinds</span>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-links">
+                        <h4>Quick Links</h4>
+                        <a href="#products">Products</a>
+                        <a href="#about">About Us</a>
+                        <a href="#how-it-works">How It Works</a>
+                    </div>
+                    
+                    <div class="footer-links">
+                        <h4>Follow Us</h4>
+                        <a href="https://instagram.com/primefinds_ca">Instagram</a>
+                        <a href="https://www.facebook.com/profile.php?id=61587211991980">Facebook</a>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <p>&copy; 2026 PrimeFinds Canada. As an Amazon Associate, we earn from qualifying purchases.</p>
+                    <p class="footer-disclaimer">Prices and availability subject to change. All product images and trademarks belong to their respective owners.</p>
+                </div>
+            </div>
         </footer>
     </div>
 
-    <!-- Admin Panel -->
+    <!-- Admin Panel (Hidden) -->
     <div class="admin-panel" id="adminPanel">
-    <!-- Admin UI moved to admin.html -->
-    <!-- Embedded admin placeholder (hidden). Access via ?admin=1 and password. -->
-    <div id="embeddedAdmin" style="display:none"></div>
-    <script>
-        (function(){
-            const params = new URLSearchParams(window.location.search);
-            const isAdmin = params.get('admin') === '1' || params.get('admin') === 'true';
-            if (!isAdmin) return;
+        <div id="embeddedAdmin" style="display:none"></div>
+        <script>
+            (function(){
+                const params = new URLSearchParams(window.location.search);
+                const isAdmin = params.get('admin') === '1' || params.get('admin') === 'true';
+                if (!isAdmin) return;
 
-            // WARNING: This is a client-side password gate for convenience only.
-            // It prevents casual access via the URL but is NOT a secure server-side auth.
-            // Change the password below before using in production.
-            const ADMIN_EMBED_PASSWORD = 'admin123';
-            const entered = prompt('Enter admin password to access the embedded admin panel:');
-            if (entered !== ADMIN_EMBED_PASSWORD) {
-                alert('Access denied');
-                try {
-                    const url = new URL(window.location.href);
-                    url.searchParams.delete('admin');
-                    history.replaceState(null, '', url.pathname + url.search + url.hash);
-                } catch (e) {}
-                return;
-            }
-
-            // Load admin.html and inject the main admin UI into the page
-            fetch('admin.html').then(r => r.text()).then(html => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const main = doc.querySelector('main.admin-only');
-                if (!main) {
-                    alert('Failed to load admin UI');
+                const ADMIN_EMBED_PASSWORD = 'admin123';
+                const entered = prompt('Enter admin password:');
+                if (entered !== ADMIN_EMBED_PASSWORD) {
+                    alert('Access denied');
+                    try {
+                        const url = new URL(window.location.href);
+                        url.searchParams.delete('admin');
+                        history.replaceState(null, '', url.pathname + url.search + url.hash);
+                    } catch (e) {}
                     return;
                 }
-                const container = document.getElementById('embeddedAdmin');
-                container.style.display = 'block';
-                container.innerHTML = main.innerHTML;
 
-                // load admin.js dynamically
-                const s = document.createElement('script');
-                s.src = 'admin.js';
-                s.defer = true;
-                document.body.appendChild(s);
-            }).catch(err => {
-                alert('Error loading admin UI: ' + err.message);
-            });
-        })();
-    </script>
+                fetch('admin.html').then(r => r.text()).then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const main = doc.querySelector('main.admin-only');
+                    if (!main) {
+                        alert('Failed to load admin UI');
+                        return;
+                    }
+                    const container = document.getElementById('embeddedAdmin');
+                    container.style.display = 'block';
+                    container.innerHTML = main.innerHTML;
+
+                    const s = document.createElement('script');
+                    s.src = 'admin.js';
+                    s.defer = true;
+                    document.body.appendChild(s);
+                }).catch(err => {
+                    alert('Error loading admin UI: ' + err.message);
+                });
+            })();
+        </script>
+    </div>
+
+    <!-- SEO Scripts -->
     <script>
-        // Set canonical and Open Graph URL dynamically (removes query and hash)
         (function(){
             try {
                 var loc = window.location.protocol + '//' + window.location.host + window.location.pathname;
-                // set canonical link
                 var canonical = document.querySelector('link[rel="canonical"]');
                 if (canonical) canonical.href = loc;
-                // set og:url
                 var ogUrl = document.querySelector('meta[property="og:url"]');
                 if (ogUrl) ogUrl.content = loc;
 
-                // Inject JSON-LD for Organization and WebSite using current origin
                 var origin = window.location.protocol + '//' + window.location.host;
                 var jsonLd = {
                     "@context": "https://schema.org",
@@ -142,11 +418,11 @@
                 script.text = JSON.stringify(jsonLd);
                 document.head.appendChild(script);
             } catch (e) {
-                // fail silently
                 console.warn('SEO script error', e);
             }
         })();
     </script>
+    
     <script src="app.js" defer></script>
 </body>
 </html>
