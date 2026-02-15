@@ -5,6 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PrimeFinds Canada - Admin</title>
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- Password Protection Script -->
+    <script>
+        (function() {
+            // Admin password - Change this to your desired password
+            const ADMIN_PASSWORD = 'primefinds2025';
+            
+            // Check if already authenticated in this session
+            const isAuthenticated = sessionStorage.getItem('adminAuth') === 'true';
+            
+            if (!isAuthenticated) {
+                // Show password prompt immediately
+                const entered = prompt('🔐 Enter admin password to access this page:');
+                
+                if (entered !== ADMIN_PASSWORD) {
+                    alert('❌ Access denied - Incorrect password');
+                    // Redirect to main site
+                    window.location.href = 'index.html';
+                } else {
+                    // Store authentication in session
+                    sessionStorage.setItem('adminAuth', 'true');
+                }
+            }
+        })();
+    </script>
 </head>
 <body>
     <main class="admin-only" id="adminMain">
@@ -16,6 +41,7 @@
                     <button id="saveDiskBtn" class="export-btn">💾 Save to disk</button>
                     <button id="exportBtn" class="export-btn">📥 Export JSON</button>
                     <button id="importBtn" class="import-btn">📤 Import JSON</button>
+                    <button id="logoutBtn" class="import-btn" style="background: #DC2626; color: white; border: none;">🔓 Logout</button>
                 </div>
             </nav>
         </header>
@@ -84,5 +110,21 @@
     </main>
 
     <script src="admin.js" defer></script>
+    
+    <!-- Logout functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function() {
+                    if (confirm('Are you sure you want to logout?')) {
+                        sessionStorage.removeItem('adminAuth');
+                        alert('✅ Logged out successfully');
+                        window.location.href = 'index.html';
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>

@@ -1,5 +1,39 @@
 /* Admin-only script: manages products.json locally. */
 (function(){
+
+// ===================================
+// PASSWORD PROTECTION
+// ===================================
+const ADMIN_PASSWORD = 'primefinds2025';  // Change this to your desired password
+
+// Check authentication immediately
+function checkAuth() {
+    const isAuthenticated = sessionStorage.getItem('adminAuth') === 'true';
+    
+    if (!isAuthenticated) {
+        const entered = prompt('🔐 Enter admin password to access this page:');
+        
+        if (entered !== ADMIN_PASSWORD) {
+            alert('❌ Access denied - Incorrect password');
+            window.location.href = 'index.html';
+            return false;
+        } else {
+            sessionStorage.setItem('adminAuth', 'true');
+            return true;
+        }
+    }
+    return true;
+}
+
+// Run authentication check immediately
+if (!checkAuth()) {
+    return; // Stop script execution if auth fails
+}
+
+// ===================================
+// ADMIN FUNCTIONALITY
+// ===================================
+
 let products = [];
 let editingProductId = null;
 
@@ -204,6 +238,18 @@ function initAdmin() {
     if (addNewBtn) addNewBtn.addEventListener('click', openAddModal);
     if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
     if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+
+    // logout button
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function() {
+            if (confirm('Are you sure you want to logout?')) {
+                sessionStorage.removeItem('adminAuth');
+                alert('✅ Logged out successfully');
+                window.location.href = 'index.html';
+            }
+        });
+    }
 
     // file input
     const fileInput = document.getElementById('fileInput');
