@@ -108,22 +108,24 @@ function renderAdminProducts() {
     products.forEach(product => {
         const card = document.createElement('div');
         card.className = 'admin-product-card';
+        if (product.visible === false) {
+            card.classList.add('draft');
+        }
         const isImageUrl = product.image && product.image.startsWith('http');
         const imageContent = isImageUrl ? `<img src="${product.image}" alt="${product.title}">` : (product.image || '📦');
         card.innerHTML = `
             <div class="admin-product-image">${imageContent}</div>
             <div class="admin-product-info">
-                <h3>${product.title}</h3>
-                <p>${product.description}</p>
+                <h3 class="admin-product-title">${product.title}</h3>
+                <p class="admin-product-desc">${product.description}</p>
                 <div class="admin-product-meta">
-                    ${product.badge ? `<span>🏷️ ${product.badge}</span>` : ''}
-                    <span style="margin-left:8px; font-size:0.9rem; color:${product.visible === false ? '#888' : '#2d8a4d'}">${product.visible === false ? 'Private' : 'Public'}</span>
+                    ${product.badge ? `<span class="meta-badge">${product.badge}</span>` : ''}
+                    <span class="meta-badge ${product.visible === false ? 'hidden' : 'visible'}">${product.visible === false ? '🔒 Hidden' : '✓ Visible'}</span>
                 </div>
             </div>
             <div class="admin-actions">
-                <button class="edit-btn" data-id="${product.id}">Edit</button>
-                <button class="delete-btn" data-id="${product.id}">Delete</button>
-                <button class="toggle-btn" data-id="${product.id}">${product.visible === false ? 'Make Public' : 'Make Private'}</button>
+                <button class="edit-btn" data-id="${product.id}">✏️ Edit</button>
+                <button class="delete-btn" data-id="${product.id}">🗑️ Delete</button>
             </div>
         `;
         adminGrid.appendChild(card);
@@ -137,7 +139,7 @@ function openAddModal() {
     if (modalTitle) modalTitle.textContent = 'Add New Product';
     const form = document.getElementById('productForm');
     if (form) form.reset();
-    if (modal) modal.classList.add('active');
+    if (modal) modal.classList.add('show');
 }
 
 function editProduct(id) {
@@ -154,7 +156,7 @@ function editProduct(id) {
     const visibleCheckbox = document.getElementById('productVisible');
     if (visibleCheckbox) visibleCheckbox.checked = product.visible !== false;
     const modal = document.getElementById('productModal');
-    if (modal) modal.classList.add('active');
+    if (modal) modal.classList.add('show');
 }
 
 function deleteProduct(id) {
@@ -175,7 +177,7 @@ function toggleVisibility(id) {
 
 function closeModal() {
     const modal = document.getElementById('productModal');
-    if (modal) modal.classList.remove('active');
+    if (modal) modal.classList.remove('show');
     editingProductId = null;
 }
 
@@ -217,15 +219,14 @@ function initAdmin() {
     if (adminGrid) {
         adminGrid.addEventListener('click', (e) => {
             const target = e.target;
-            if (target.matches('.edit-btn')) {
-                const id = Number(target.getAttribute('data-id'));
+            if (target.matches('.edit-btn') || target.closest('.edit-btn')) {
+                const btn = target.matches('.edit-btn') ? target : target.closest('.edit-btn');
+                const id = Number(btn.getAttribute('data-id'));
                 editProduct(id);
-            } else if (target.matches('.delete-btn')) {
-                const id = Number(target.getAttribute('data-id'));
+            } else if (target.matches('.delete-btn') || target.closest('.delete-btn')) {
+                const btn = target.matches('.delete-btn') ? target : target.closest('.delete-btn');
+                const id = Number(btn.getAttribute('data-id'));
                 deleteProduct(id);
-            } else if (target.matches('.toggle-btn')) {
-                const id = Number(target.getAttribute('data-id'));
-                toggleVisibility(id);
             }
         });
     }
@@ -248,8 +249,9 @@ function initAdmin() {
                 if (idx !== -1) products[idx] = { ...products[idx], ...productData };
                 showSuccessMessage('✅ Product updated');
             } else {
+                // Add new product at the BEGINNING of the array using unshift()
                 productData.id = Date.now();
-                products.push(productData);
+                products.unshift(productData);
                 showSuccessMessage('✅ Product added');
             }
             saveProductsToLocalStorage();
