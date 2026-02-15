@@ -1,6 +1,15 @@
 {
   "products": [
-     {
+    {
+      "title": "Keurig K-Mini Single Serve K-Cup Pod Coffee Maker",
+      "description": "Made From At Least 20% Recycled Plastic, Matte Black",
+      "image": "https://m.media-amazon.com/images/I/61BM8vKI4fL._AC_SL1500_.jpg",
+      "badge": "Amazon's Choice",
+      "link": "https://amzn.to/4aBGyTE",
+      "visible": true,
+      "id": 1771197140797
+    },
+    {
       "title": "Wireless Charging ",
       "description": "3 in 1 Magnetic Wireless Charger for Apple Multiple Devices, Foldable Fast Charging Station - Magsafe Charger Stand, Travel Charger Pad for iPhone 17 16 15 14 13 Pro Max Plus/Apple Watch/AirPods Pro",
       "image": "https://m.media-amazon.com/images/I/61BuxZ46feL._AC_SL1500_.jpg",
